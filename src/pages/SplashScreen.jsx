@@ -4,6 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, Sparkles, OrbitControls } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
+import { supabase } from '../services/supabase';
 import './SplashScreen.css';
 
 // Atmospheric floating elements
@@ -43,9 +44,12 @@ export default function SplashScreen() {
     }, 4500); // 4.5s: fade out
 
     const t3 = setTimeout(async () => {
-      const { data: { session } } = await THREE.MathUtils.generateUUID() && { data: { session: null } }; // Placeholder for actual auth check if needed early
-      // We check auth in App.jsx usually, but here we decide destination
-      navigate('/auth');
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate('/home');
+      } else {
+        navigate('/auth');
+      }
     }, 5500); // 5.5s: navigate
 
     return () => {
