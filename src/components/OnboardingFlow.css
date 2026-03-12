@@ -1,0 +1,219 @@
+.onboarding-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 100px);
+  padding: var(--spacing-md);
+  animation: fadeIn 0.4s ease;
+}
+
+.onboarding-card {
+  width: 100%;
+  max-width: 540px;
+  padding: var(--spacing-xl) var(--spacing-2xl);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.onboarding-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xl);
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.back-button:hover {
+  color: var(--color-text-primary);
+}
+
+.progress-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.progress-indicator .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-bg-raised);
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-normal);
+}
+
+.progress-indicator .dot.active {
+  background-color: var(--color-accent-main);
+  border-color: var(--color-accent-main);
+  box-shadow: 0 0 10px rgba(255, 184, 0, 0.4);
+}
+
+.progress-indicator .line {
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-bg-raised);
+  transition: all var(--transition-normal);
+}
+
+.progress-indicator .line.active {
+  background-color: var(--color-accent-main);
+}
+
+.step-content {
+  animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.step-desc {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-text-primary);
+}
+
+.help-text {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--spacing-sm);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="tel"],
+textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: rgba(0, 0, 0, 0.2);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  font-size: 1rem;
+  transition: all var(--transition-fast);
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-accent-main);
+  box-shadow: 0 0 0 2px rgba(255, 184, 0, 0.2);
+}
+
+.role-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.role-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-deep);
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.role-toggle:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--color-text-primary);
+}
+
+.role-toggle.selected {
+  background-color: rgba(255, 184, 0, 0.1);
+  border-color: var(--color-accent-main);
+  color: var(--color-accent-main);
+}
+
+.check-icon {
+  color: var(--color-accent-main);
+}
+
+.char-count {
+  display: block;
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: var(--spacing-xs);
+}
+
+.step-btn {
+  width: 100%;
+  margin-top: var(--spacing-md);
+  padding: 1rem;
+  font-size: 1.05rem;
+}
+
+.step-btn:disabled {
+  background-color: var(--color-bg-raised);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Specific styling for the link entry groups */
+.link-entry-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+  animation: slideIn 0.2s ease;
+}
+
+.link-inputs {
+  display: flex;
+  flex: 1;
+  gap: var(--spacing-sm);
+}
+
+.link-inputs input {
+  flex: 1;
+}
+
+.remove-link-btn {
+  background-color: rgba(255, 50, 50, 0.1);
+  color: #ff4444;
+  padding: 0.8rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 50, 50, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-link-btn:hover {
+  background-color: #ff4444;
+  color: white;
+  transform: scale(1.05);
+}
+
+@media (max-width: 640px) {
+  .link-inputs {
+    flex-direction: column;
+  }
+}

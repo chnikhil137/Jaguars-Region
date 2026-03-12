@@ -1,0 +1,122 @@
+import React, { useState } from 'react';
+import { User, Mail, Phone, Instagram, Globe, X, Link as LinkIcon, MapPin } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useStore } from '../services/store';
+import './DirectoryCard.css';
+
+export default function DirectoryCard({ user }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const { upvoteUser } = useStore();
+
+  const toggleExpand = () => setIsExpanded(!isExpanded);
+
+  // Helper to format URLs
+  const formatUrl = (url) => {
+    if (!url) return '';
+    return url.startsWith('http') ? url : `https://${url}`;
+  };
+
+  return (
+    <>
+      {/* Zero State / Grid View */}
+      <motion.div 
+        className="directory-card glass-panel" 
+        onClick={toggleExpand}
+        whileHover={{ scale: 1.02, y: -4 }}
+        whileTap={{ scale: 0.98 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, type: "spring" }}
+      >
+        <div className="card-header">
+          <div style={{display: 'flex', flexDirection: 'column', flex: 1}}>
+            <h3>{user.name}</h3>
+            {user.location && user.location !== 'Not Specified' && (
+              <div style={{display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-text-secondary)', fontSize: '0.85rem', marginBottom: '8px'}}>
+                <MapPin size={12} /> {user.location}
+              </div>
+            )}
+            <div className="role-tags">
+              {user.role.slice(0, 2).map((r, i) => (
+                <span key={i} className="role-tag">{r}</span>
+              ))}
+              {user.role.length > 2 && (
+                <span className="role-tag">+{user.role.length - 2}</span>
+              )}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Expanded Profile Modal */}
+      <AnimatePresence>
+      {isExpanded && (
+        <div className="modal-overlay" onClick={toggleExpand}>
+          <motion.div 
+            className="modal-content glass-panel" 
+            onClick={(e) => e.stopPropagation()}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          >
+            <button className="close-button" onClick={toggleExpand}>
+              <X size={24} />
+            </button>
+            
+            <div className="modal-header">
+              <div className="modal-title">
+                <h2>{user.name}</h2>
+                {user.location && user.location !== 'Not Specified' && (
+                  <div style={{display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-text-secondary)', fontSize: '0.95rem', marginTop: '4px', marginBottom: '12px'}}>
+                    <MapPin size={16} /> {user.location}
+                  </div>
+                )}
+                <div className="role-tags">
+                  {user.role.map((r, i) => (
+                    <span key={i} className="role-tag">{r}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="modal-body">
+              <h4 className="section-title">Bio</h4>
+              <p className="bio-text">{user.bio || 'No bio provided.'}</p>
+
+              <h4 className="section-title">Connect</h4>
+              <div className="contact-links">
+                {user.contact_email && (
+                  <a href={`mailto:${user.contact_email}`} className="contact-btn email">
+                    <Mail size={18} /> Email
+                  </a>
+                )}
+                {user.contact_phone && (
+                  <a href={`tel:${user.contact_phone}`} className="contact-btn phone">
+                    <Phone size={18} /> Call
+                  </a>
+                )}
+                {user.social_links?.instagram && (
+                  <a href={formatUrl(user.social_links.instagram)} target="_blank" rel="noopener noreferrer" className="contact-btn instagram">
+                    <Instagram size={18} /> Instagram
+                  </a>
+                )}
+                {user.social_links?.portfolio && (
+                  <a href={formatUrl(user.social_links.portfolio)} target="_blank" rel="noopener noreferrer" className="contact-btn portfolio">
+                    <Globe size={18} /> Portfolio
+                  </a>
+                )}
+                {user.custom_links && user.custom_links.map((link, idx) => (
+                  <a key={idx} href={formatUrl(link.url)} target="_blank" rel="noopener noreferrer" className="contact-btn external">
+                    <LinkIcon size={18} /> {link.title || 'Link'}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+      </AnimatePresence>
+    </>
+  );
+}

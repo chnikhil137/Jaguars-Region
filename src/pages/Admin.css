@@ -1,0 +1,318 @@
+.admin-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-deep);
+}
+
+.admin-login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-lg);
+  position: relative;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: var(--spacing-lg);
+}
+
+.back-btn:hover {
+  color: var(--color-text-primary);
+}
+
+.admin-header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.lock-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(229, 9, 20, 0.1);
+  color: var(--color-accent-main);
+  margin-bottom: var(--spacing-sm);
+}
+
+.admin-header p {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: rgba(255, 50, 50, 0.1);
+  border: 1px solid rgba(255, 50, 50, 0.3);
+  color: #ff4444;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-md);
+  font-size: 0.9rem;
+}
+
+.admin-form .form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.admin-form label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-text-secondary);
+}
+
+.admin-form input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: #fff;
+  transition: all 0.2s;
+}
+
+.admin-form input:focus {
+  outline: none;
+  border-color: var(--color-accent-main);
+}
+
+.login-btn {
+  width: 100%;
+  margin-top: var(--spacing-md);
+}
+
+/* Dashboard Layout */
+.admin-dashboard {
+  display: flex;
+  height: 100vh;
+  background-color: var(--color-bg-deep);
+  overflow: hidden;
+}
+
+.admin-sidebar {
+  width: 280px;
+  border-right: 1px solid var(--color-border);
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.sidebar-header {
+  padding: var(--spacing-xl) var(--spacing-lg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.sidebar-header h2 {
+  color: var(--color-accent-main);
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.sidebar-header p {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: var(--spacing-md) 0;
+  overflow-y: auto;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  width: 100%;
+  padding: var(--spacing-md) var(--spacing-lg);
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: left;
+  border-left: 3px solid transparent;
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-primary);
+}
+
+.nav-btn.active {
+  background: rgba(229, 9, 20, 0.1);
+  color: #fff;
+  border-left-color: var(--color-accent-main);
+}
+
+.badge {
+  margin-left: auto;
+  background: var(--color-accent-main);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.sidebar-footer {
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.logout-btn {
+  border-radius: var(--radius-md);
+  justify-content: center;
+}
+
+.logout-btn:hover {
+  background: rgba(255, 50, 50, 0.1);
+  color: #ff4444;
+}
+
+/* Main Content */
+.admin-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.admin-topbar {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  border-bottom: 1px solid var(--color-border);
+  border-radius: 0;
+  z-index: 5;
+}
+
+.admin-topbar h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.admin-content {
+  flex: 1;
+  padding: var(--spacing-xl);
+  overflow-y: auto;
+}
+
+.table-container {
+  padding: 0;
+  overflow: hidden;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-3xl);
+  color: var(--color-text-muted);
+}
+
+.empty-state svg {
+  margin-bottom: var(--spacing-md);
+  opacity: 0.5;
+}
+
+/* Table Styles */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.admin-table th {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.admin-table td {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: top;
+  font-size: 0.95rem;
+}
+
+.admin-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.date-col {
+  color: var(--color-text-muted);
+  width: 150px;
+}
+
+.name-col {
+  font-weight: 600;
+  color: #fff;
+}
+
+.role-chip {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--color-text-primary);
+}
+
+.exp-col {
+  max-width: 400px;
+}
+
+.exp-text {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  border-radius: 4px;
+  border-left: 2px solid var(--color-accent-main);
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.table-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.small-tag {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
