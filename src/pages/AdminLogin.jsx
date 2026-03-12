@@ -11,6 +11,20 @@ export default function AdminLogin({ onLogin }) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Check for existing session on mount
+  React.useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user?.email === 'chnikhil137@gmail.com') {
+        // If they have the correct session, we still ask for the admin password 
+        // to maintain the "Access Control" layer, OR we can auto-login
+        // For now, let's at least pre-fill the email
+        setEmail('chnikhil137@gmail.com');
+      }
+    };
+    checkSession();
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
@@ -18,34 +32,54 @@ export default function AdminLogin({ onLogin }) {
 
     try {
       const cleanEmail = email.trim();
+      const cleanPassword = password.trim();
+
       if (cleanEmail !== 'chnikhil137@gmail.com') {
         throw new Error('Unrecognised personnel.');
       }
 
-      // We must authenticate with Supabase so RLS allows fetching users and leads
-      const { error: signInError } = await supabase.auth.signInWithPassword({
-        email: cleanEmail,
-        password: password.trim()
-      });
+      // 1. First, check if we already have a session for this user
+      const { data: { session } } = await supabase.auth.getSession();
       
-      if (signInError) {
-        if (signInError.status === 400) {
-          throw new Error('Invalid credentials or account does not exist.');
+      if (session?.user?.email !== cleanEmail) {
+        // We must authenticate with Supabase so RLS allows fetching users and leads
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email: cleanEmail,
+          password: cleanPassword
+        });
+        
+        if (signInError) {
+          if (signInError.status === 400) {
+            throw new Error('Invalid credentials. If you use Google to sign in, please use the "Login with Google" button below.');
+          }
+          throw signInError;
         }
-        throw signInError;
       }
 
-      // Maintain the hardcoded check for the central unit UI
-      if (password.trim() === 'Nikhilch@031106') {
+      // 2. Maintain the hardcoded check for the central unit UI
+      if (cleanPassword === 'Nikhilch@031106') {
         onLogin();
       } else {
-        await supabase.auth.signOut();
         throw new Error('Access Denied: Invalid admin password.');
       }
     } catch (err) {
       setError(err.message || 'Authentication failed.');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/admin`
+        }
+      });
+      if (error) throw error;
+    } catch (err) {
+      setError(err.message);
     }
   };
 
@@ -99,6 +133,15 @@ export default function AdminLogin({ onLogin }) {
             {isLoading ? 'Verifying...' : 'Access Central Unit'}
           </button>
         </form>
+
+        <div className="auth-divider" style={{margin: '1.5rem 0'}}>
+          <span>OR</span>
+        </div>
+
+        <button type="button" className="auth-google-btn" onClick={handleGoogleLogin} disabled={isLoading}>
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="18" height="18" />
+          Continue with Google Admin
+        </button>
       </div>
     </div>
   );
