@@ -18,8 +18,8 @@ export function AuthProvider({ children }) {
       .from('members')
       .select('*')
       .eq('user_id', authUser.id)
-      .maybeSingle();
-    setMemberProfile(data || null);
+      .limit(1);
+    setMemberProfile(data && data.length > 0 ? data[0] : null);
   };
 
   useEffect(() => {

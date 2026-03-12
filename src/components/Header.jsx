@@ -29,8 +29,8 @@ export default function Header() {
       <div className="container header-container">
         {isLoggedIn && (
           <>
-            <Link to="/home" className="header-logo" style={{ textDecoration: 'none', color: 'var(--color-accent-main)', fontWeight: 'bold' }}>
-              JAGUARS
+            <Link to="/home" className="header-logo" style={{ textDecoration: 'none', color: 'var(--color-accent-main)', fontWeight: 'bold', fontSize: '1.2rem', letterSpacing: '1px' }}>
+              JAGUARS REGION
             </Link>
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
               <Link to="/dashboard" className="dash-link">

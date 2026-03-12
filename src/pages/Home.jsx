@@ -64,32 +64,27 @@ export default function Home() {
           <h2 style={{ fontSize: '1.8rem', background: 'linear-gradient(to right, #fff, var(--color-accent-main))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', whiteSpace: 'nowrap' }}>
             Connect with Jaguars
           </h2>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginTop: '0.3rem' }}>Browse our film community directory</p>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginTop: '0.6rem', lineHeight: '1.5', maxWidth: '600px', margin: '0.6rem auto 0 auto' }}>
+            Dive into the most aggressive film community. Discover powerful members, connect over shared visions, and collaborate to create cinematic masterpieces.
+          </p>
         </div>
 
-        {filteredUsers.length > 0 || (!authLoading && !memberProfile) ? (
+        {currentUser && !memberProfile && (
+          <div className="glass-panel" style={{ padding: '1.5rem 2rem', marginBottom: '2rem', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', borderLeft: '4px solid var(--color-accent-main)', background: 'rgba(255, 68, 68, 0.05)' }}>
+            <div>
+              <h3 style={{color: 'var(--color-accent-main)', margin: '0 0 0.4rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+                <Plus size={20} /> Create Your Profile
+              </h3>
+              <p style={{margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)'}}>You are logged in, but you haven't joined the directory yet.</p>
+            </div>
+            <button className="btn btn-primary" onClick={() => navigate('/register')} style={{ padding: '0.6rem 1.2rem' }}>
+               Become a Jaguar
+            </button>
+          </div>
+        )}
+
+        {filteredUsers.length > 0 ? (
           <div className="masonry-grid">
-            {/* Show "Join" card for logged in users without a profile */}
-            {currentUser && !memberProfile && (
-              <motion.div 
-                className="directory-card join-card glass-panel"
-                onClick={() => navigate('/register')}
-                whileHover={{ scale: 1.02, y: -4 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                style={{ cursor: 'pointer', border: '2px dashed var(--color-accent-main)', background: 'rgba(255, 68, 68, 0.05)' }}
-              >
-                <div className="card-header" style={{ textAlign: 'center', padding: '2rem 1rem' }}>
-                   <div style={{ marginBottom: '1rem', color: 'var(--color-accent-main)' }}>
-                     <Plus size={40} />
-                   </div>
-                   <h3 style={{ color: 'var(--color-accent-main)' }}>Become a Jaguar</h3>
-                   <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', marginTop: '0.5rem' }}>
-                     Create your profile to join the most aggressive film community.
-                   </p>
-                </div>
-              </motion.div>
-            )}
 
             {filteredUsers.map(user => (
               <DirectoryCard 

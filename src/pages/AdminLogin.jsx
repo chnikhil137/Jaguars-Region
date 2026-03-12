@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, AlertCircle, ArrowLeft } from 'lucide-react';
+import { supabase } from '../services/supabase';
 import './Admin.css';
 
 export default function AdminLogin({ onLogin }) {
@@ -10,20 +11,32 @@ export default function AdminLogin({ onLogin }) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
 
-    // Hardcoded auth check per client specs
-    setTimeout(() => {
+    try {
+      // We must authenticate with Supabase so RLS allows fetching users and leads
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+      
+      if (signInError) throw signInError;
+
+      // Maintain the hardcoded check for the central unit UI
       if (email === 'chnikhil137@gmail.com' && password === 'Nikhilch@031106') {
         onLogin();
       } else {
+        await supabase.auth.signOut();
         setError('Invalid admin credentials.');
       }
+    } catch (err) {
+      setError(err.message || 'Authentication failed.');
+    } finally {
       setIsLoading(false);
-    }, 500);
+    }
   };
 
   return (
