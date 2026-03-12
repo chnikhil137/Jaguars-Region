@@ -106,7 +106,7 @@ export default function OnboardingFlow() {
               <ArrowLeft size={20} /> Back
             </button>
           ) : (
-            <button className="back-button" onClick={() => navigate('/')} type="button">
+            <button className="back-button" onClick={() => navigate('/home')} type="button">
               <ArrowLeft size={20} /> Cancel
             </button>
           )}

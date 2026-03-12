@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { X, ArrowRight, UserPlus, Star } from 'lucide-react';
 import { submitLead } from '../services/db';
 import './RecruitmentPopup.css';
@@ -6,6 +7,7 @@ import './RecruitmentPopup.css';
 export default function RecruitmentPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const location = useLocation();
 
   // Form State
   const [formData, setFormData] = useState({
@@ -16,19 +18,18 @@ export default function RecruitmentPopup() {
   });
 
   useEffect(() => {
-    // Only show on actual app routes, not splash
-    if (window.location.pathname === '/') return;
+    // Only show on the home page, not splash or other routes
+    if (location.pathname !== '/home') return;
 
     // Check if user has already explicitly closed the popup
     const hasClosedPopup = localStorage.getItem('jaguars_recruitment_closed');
     if (!hasClosedPopup) {
-      // Small delay to let the page load before pulling focus
       const timer = setTimeout(() => {
         setIsOpen(true);
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [location.pathname]);
 
   const closePopup = () => {
     setIsOpen(false);

@@ -10,7 +10,7 @@ export default function Success() {
   useEffect(() => {
     // If user didn't just register, bounce them to home
     if (!location.state?.success) {
-      navigate('/');
+      navigate('/home');
     }
   }, [location, navigate]);
 
@@ -38,7 +38,7 @@ export default function Success() {
           </div>
 
           <div className="return-link">
-            <Link to="/" className="back-home-link">
+            <Link to="/home" className="back-home-link">
               Return to Directory <ArrowRight size={16} />
             </Link>
           </div>

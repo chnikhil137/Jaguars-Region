@@ -29,7 +29,7 @@ export default function AdminLogin({ onLogin }) {
   return (
     <div className="admin-container">
       <div className="admin-login-card glass-panel">
-        <button className="back-btn" onClick={() => navigate('/')}>
+        <button className="back-btn" onClick={() => navigate('/home')}>
           <ArrowLeft size={20} /> Back to Directory
         </button>
         

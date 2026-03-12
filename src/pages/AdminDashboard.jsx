@@ -28,7 +28,7 @@ export default function AdminDashboard({ onLogout }) {
 
   const handleLogout = () => {
     onLogout();
-    navigate('/');
+    navigate('/home');
   };
 
   const formatDate = (isoString) => {
