@@ -58,7 +58,7 @@ export default function AuthPage() {
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
@@ -92,7 +92,7 @@ export default function AuthPage() {
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
