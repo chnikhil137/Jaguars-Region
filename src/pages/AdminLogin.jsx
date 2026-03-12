@@ -17,6 +17,10 @@ export default function AdminLogin({ onLogin }) {
     setIsLoading(true);
 
     try {
+      if (email !== 'chnikhil137@gmail.com') {
+        throw new Error('Unrecognized personnel.');
+      }
+
       // We must authenticate with Supabase so RLS allows fetching users and leads
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
@@ -26,11 +30,11 @@ export default function AdminLogin({ onLogin }) {
       if (signInError) throw signInError;
 
       // Maintain the hardcoded check for the central unit UI
-      if (email === 'chnikhil137@gmail.com' && password === 'Nikhilch@031106') {
+      if (password === 'Nikhilch@031106') {
         onLogin();
       } else {
         await supabase.auth.signOut();
-        setError('Invalid admin credentials.');
+        throw new Error('Invalid admin credentials.');
       }
     } catch (err) {
       setError(err.message || 'Authentication failed.');
