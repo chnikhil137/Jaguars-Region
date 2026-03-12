@@ -32,39 +32,37 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     let mounted = true;
 
-    async function initializeAuth() {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) throw error;
-        
-        const currentUser = session?.user || null;
-        if (mounted) {
-          setUser(currentUser);
-          await loadProfile(currentUser);
-        }
-      } catch (err) {
-        console.error("Auth init error:", err);
-      } finally {
-        if (mounted) setLoading(false);
+    // Safety timeout: Ensure loading screen clears eventually (max 8s)
+    const timeout = setTimeout(() => {
+      if (mounted && loading) {
+        console.warn("Auth initialization timed out, clearing loading state.");
+        setLoading(false);
       }
-    }
+    }, 8000);
 
-    initializeAuth();
-
-    // Listen for auth changes
+    // Initial check and subscription
+    // onAuthStateChange fires for the INITIAL_SESSION in Supabase v2
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (!mounted) return;
         
         const currentUser = session?.user || null;
         setUser(currentUser);
+        
+        // We only want to set loading to false AFTER we at least tried 
+        // to load the profile, or if there is no user
         await loadProfile(currentUser);
-        setLoading(false); // Ensure loading is off if event triggers early
+        
+        if (mounted) {
+          setLoading(false);
+          clearTimeout(timeout);
+        }
       }
     );
 
     return () => {
       mounted = false;
+      clearTimeout(timeout);
       subscription.unsubscribe();
     };
   }, []);
