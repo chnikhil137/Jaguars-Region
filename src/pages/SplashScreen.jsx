@@ -4,7 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, Sparkles, OrbitControls } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
-import { supabase } from '../services/supabase';
+import { useAuth } from '../services/AuthContext';
 import './SplashScreen.css';
 
 // Atmospheric floating elements
@@ -31,6 +31,7 @@ function Atmosphere() {
 
 export default function SplashScreen() {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
   const [phase, setPhase] = useState('intro'); // intro -> logo -> routing
 
   useEffect(() => {
@@ -43,9 +44,9 @@ export default function SplashScreen() {
       setPhase('routing');
     }, 4500); // 4.5s: fade out
 
-    const t3 = setTimeout(async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
+    const t3 = setTimeout(() => {
+      // Use the already-loaded auth state from context to avoid lock contention
+      if (user) {
         navigate('/home');
       } else {
         navigate('/auth');
@@ -57,7 +58,7 @@ export default function SplashScreen() {
       clearTimeout(t2);
       clearTimeout(t3);
     };
-  }, [navigate]);
+  }, [navigate, user]); // Re-run if user/loading changes to ensure t3 has latest info
 
   return (
     <div className="splash-screen">

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../services/AuthContext';
 import { supabase } from '../services/supabase';
 import { Mail, Lock, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import './AuthPage.css';
@@ -10,16 +11,24 @@ export default function AuthPage() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, loading } = useAuth();
+
+  // Auto-redirect if already logged in
+  React.useEffect(() => {
+    if (!loading && user) {
+      navigate('/home');
+    }
+  }, [user, loading, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccessMessage('');
-    setLoading(true);
+    setIsSubmitting(true);
 
     try {
       if (isSignUp) {
@@ -73,7 +82,7 @@ export default function AuthPage() {
       setError('Please enter your email address first.');
       return;
     }
-    setLoading(true);
+    setIsSubmitting(true);
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth?reset=true`,
@@ -139,9 +148,9 @@ export default function AuthPage() {
             </div>
           )}
 
-          <button type="submit" className="btn btn-primary auth-submit" disabled={loading}>
-            {loading ? 'Please wait...' : (isSignUp ? 'Create Account' : 'Sign In')}
-            {!loading && <ArrowRight size={18} />}
+          <button type="submit" className="btn btn-primary auth-submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Please wait...' : (isSignUp ? 'Create Account' : 'Sign In')}
+            {!isSubmitting && <ArrowRight size={18} />}
           </button>
         </form>
 
@@ -149,7 +158,7 @@ export default function AuthPage() {
           <span>OR</span>
         </div>
 
-        <button type="button" className="auth-google-btn" onClick={handleGoogleSignIn} disabled={loading}>
+        <button type="button" className="auth-google-btn" onClick={handleGoogleSignIn} disabled={isSubmitting}>
           <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="18" height="18" />
           Continue with Google
         </button>
