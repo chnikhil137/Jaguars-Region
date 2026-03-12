@@ -33,8 +33,8 @@ export default function AuthPage() {
           setError('An account with this email already exists. Please sign in.');
           setIsSignUp(false);
         } else {
-          // After sign up, redirect to registration form
-          navigate('/register');
+          // Redirect to home after signup
+          navigate('/home');
         }
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({
@@ -43,19 +43,8 @@ export default function AuthPage() {
         });
         if (signInError) throw signInError;
         
-        // Check if user has a profile
-        const { data: { user } } = await supabase.auth.getUser();
-        const { data: profile } = await supabase
-          .from('members')
-          .select('id')
-          .eq('user_id', user.id)
-          .single();
-        
-        if (profile) {
-          navigate('/dashboard');
-        } else {
-          navigate('/register');
-        }
+        // Redirect to home after signin
+        navigate('/home');
       }
     } catch (err) {
       setError(err.message);

@@ -40,9 +40,9 @@ function App() {
               {/* Routes that only require being logged in */}
               <Route path="/register" element={<ProtectedRoute><Register /></ProtectedRoute>} />
               <Route path="/joined" element={<ProtectedRoute><Success /></ProtectedRoute>} />
+              <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
               
               {/* Routes that require being logged in AND having a profile */}
-              <Route path="/home" element={<ProtectedRoute requireProfile><Home /></ProtectedRoute>} />
               <Route path="/dashboard" element={<ProtectedRoute requireProfile><Dashboard /></ProtectedRoute>} />
               
               {/* Secret Admin Route */}

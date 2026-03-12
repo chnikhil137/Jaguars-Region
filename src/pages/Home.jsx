@@ -14,13 +14,6 @@ export default function Home() {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [userUpvotes, setUserUpvotes] = useState([]);
 
-  // If logged in but no profile, send to registration
-  useEffect(() => {
-    if (!authLoading && currentUser && !memberProfile) {
-      navigate('/register');
-    }
-  }, [currentUser, memberProfile, authLoading, navigate]);
-
   useEffect(() => {
     const fetchUpvotes = async () => {
       const upvotedIds = await getUserUpvotes();
@@ -72,8 +65,30 @@ export default function Home() {
           <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginTop: '0.3rem' }}>Browse our film community directory</p>
         </div>
 
-        {filteredUsers.length > 0 ? (
+        {filteredUsers.length > 0 || (!authLoading && !memberProfile) ? (
           <div className="masonry-grid">
+            {/* Show "Join" card for logged in users without a profile */}
+            {currentUser && !memberProfile && (
+              <motion.div 
+                className="directory-card join-card glass-panel"
+                onClick={() => navigate('/register')}
+                whileHover={{ scale: 1.02, y: -4 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{ cursor: 'pointer', border: '2px dashed var(--color-accent-main)', background: 'rgba(255, 68, 68, 0.05)' }}
+              >
+                <div className="card-header" style={{ textAlign: 'center', padding: '2rem 1rem' }}>
+                   <div style={{ marginBottom: '1rem', color: 'var(--color-accent-main)' }}>
+                     <Plus size={40} />
+                   </div>
+                   <h3 style={{ color: 'var(--color-accent-main)' }}>Become a Jaguar</h3>
+                   <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', marginTop: '0.5rem' }}>
+                     Create your profile to join the most aggressive film community.
+                   </p>
+                </div>
+              </motion.div>
+            )}
+
             {filteredUsers.map(user => (
               <DirectoryCard 
                 key={user.id} 

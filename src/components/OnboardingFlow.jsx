@@ -129,7 +129,7 @@ export default function OnboardingFlow() {
           {/* STEP 1: Basic Info */}
           {step === 1 && (
             <div className="step-content">
-              <h2>Basic Information</h2>
+              <h2>Create Your Jaguar Profile</h2>
               
               <div className="form-group" style={{marginTop: '1.5rem'}}>
                 <label htmlFor="name">Full Name *</label>
