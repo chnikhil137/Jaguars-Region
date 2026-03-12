@@ -18,7 +18,7 @@ export default function AdminLogin({ onLogin }) {
 
     try {
       const cleanEmail = email.trim();
-      if (cleanEmail !== 'cheichill137@gmail.com') {
+      if (cleanEmail !== 'chnikhil137@gmail.com') {
         throw new Error('Unrecognised personnel.');
       }
 
