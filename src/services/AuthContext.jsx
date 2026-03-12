@@ -40,23 +40,29 @@ export function AuthProvider({ children }) {
       }
     }, 8000);
 
-    // Initial check and subscription
-    // onAuthStateChange fires for the INITIAL_SESSION in Supabase v2
+    const initialize = async (session) => {
+      if (!mounted) return;
+      const currentUser = session?.user || null;
+      setUser(currentUser);
+      await loadProfile(currentUser);
+      if (mounted) {
+        setLoading(false);
+        clearTimeout(timeout);
+      }
+    };
+
+    // 1. Get initial session immediately
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (mounted) initialize(session);
+    });
+
+    // 2. Listen for subsequent changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (!mounted) return;
-        
-        const currentUser = session?.user || null;
-        setUser(currentUser);
-        
-        // We only want to set loading to false AFTER we at least tried 
-        // to load the profile, or if there is no user
-        await loadProfile(currentUser);
-        
-        if (mounted) {
-          setLoading(false);
-          clearTimeout(timeout);
-        }
+        // On INITIAL_SESSION, initialize will be called again, 
+        // but that's fine as it's idempotent for state.
+        initialize(session);
       }
     );
 

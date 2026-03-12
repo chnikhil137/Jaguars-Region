@@ -86,11 +86,16 @@ export default function OnboardingFlow() {
       user_id: user?.id || null
     };
 
-    await registerUser(finalData);
-    await refreshProfile();
-    
-    setIsSubmitting(false);
-    navigate('/joined', { state: { success: true } });
+    try {
+      await registerUser(finalData);
+      await refreshProfile();
+      navigate('/joined', { state: { success: true } });
+    } catch (err) {
+      console.error("Submission error:", err);
+      alert("Something went wrong joining: " + err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const isStep1Valid = formData.name.trim().length > 2 && formData.role.length > 0 && 

@@ -31,7 +31,7 @@ export async function addUser(userData) {
 
   const { data, error } = await supabase
     .from('members')
-    .insert([newUser])
+    .upsert([newUser], { onConflict: 'user_id' })
     .select()
     .single();
 
