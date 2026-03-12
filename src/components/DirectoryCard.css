@@ -186,3 +186,33 @@
     font-size: 0.75rem;
   }
 }
+
+.own-badge {
+  font-size: 0.8rem;
+  color: var(--color-accent-main);
+  background: rgba(229, 9, 20, 0.1);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  margin-left: 8px;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  transition: all var(--transition-short);
+}
+
+.star-rating:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.edit-profile-btn {
+  margin: 1.5rem 0;
+  width: 100%;
+}
