@@ -14,10 +14,6 @@ export default function Header() {
   return (
     <header className="header glass-panel">
       <div className="container header-container">
-        <Link to="/" className="logo">
-          <h1>Jaguars Region</h1>
-        </Link>
-        
         {isHome && (
           <Link to="/register" className="btn btn-primary cta-button">
             Be a Jaguar, join our film community

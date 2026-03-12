@@ -1,34 +1,35 @@
 .filter-wrapper {
   position: sticky;
-  top: 76px; /* Below the header */
+  top: 52px; /* Below the compact header */
   z-index: 90;
   background: linear-gradient(to bottom, var(--color-bg-deep) 60%, transparent);
-  padding: var(--spacing-md) 0;
-  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-sm) 0;
+  margin-bottom: var(--spacing-md);
 }
 
 .filter-bar {
   display: flex;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
   overflow-x: auto;
-  padding-bottom: var(--spacing-sm); /* safe space for scrollbar */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  padding-bottom: var(--spacing-xs);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .filter-bar::-webkit-scrollbar {
-  display: none; /* Chrome, Edge and Safari */
+  display: none;
 }
 
 .filter-pill {
   white-space: nowrap;
-  padding: 0.5rem 1.2rem;
+  padding: 0.45rem 1rem;
   border-radius: var(--radius-pill);
   background-color: var(--color-bg-raised);
   color: var(--color-text-secondary);
   border: 1px solid var(--color-border);
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  flex-shrink: 0;
 }
 
 .filter-pill:hover {
@@ -42,4 +43,16 @@
   color: var(--color-bg-deep);
   border-color: var(--color-accent-main);
   box-shadow: var(--shadow-glow);
+}
+
+@media (max-width: 640px) {
+  .filter-wrapper {
+    top: 44px;
+    padding: var(--spacing-xs) 0;
+  }
+  
+  .filter-pill {
+    padding: 0.35rem 0.8rem;
+    font-size: 0.78rem;
+  }
 }

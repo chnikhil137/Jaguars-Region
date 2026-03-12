@@ -88,7 +88,7 @@ export default function SplashScreen() {
                 transition={{ duration: 1, delay: 1 }}
                 className="splash-subtitle"
               >
-                THE ELITE FILM COMMUNITY
+                THE AGGRESSIVE COMMUNITY
               </motion.p>
             </motion.div>
           )}

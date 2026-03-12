@@ -30,7 +30,7 @@ export default function Home() {
       <div className="container" style={{ paddingBottom: '4rem' }}>
         <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
           <h2 style={{ fontSize: '2.5rem', background: 'linear-gradient(to right, #fff, var(--color-accent-main))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            Connect with Jaguars Region
+            Connect with Jaguars
           </h2>
         </div>
 

@@ -10,7 +10,6 @@
 }
 
 .directory-card:hover {
-  transform: translateY(-4px);
   border-color: var(--color-accent-hover);
   box-shadow: var(--shadow-md);
   background: rgba(26, 26, 26, 0.9);
@@ -23,16 +22,9 @@
   flex: 1;
 }
 
-.avatar-placeholder {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background-color: var(--color-bg-deep);
-  border: 2px solid var(--color-accent-main);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-accent-main);
+.card-header h3 {
+  font-size: 1.1rem;
+  word-break: break-word;
 }
 
 .role-tags {
@@ -45,8 +37,8 @@
 .role-tag {
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--color-text-secondary);
-  font-size: 0.75rem;
-  padding: 0.2rem 0.6rem;
+  font-size: 0.72rem;
+  padding: 0.15rem 0.55rem;
   border-radius: var(--radius-pill);
 }
 
@@ -61,7 +53,7 @@
   justify-content: center;
   z-index: 1000;
   animation: fadeIn 0.3s ease;
-  padding: var(--spacing-md);
+  padding: var(--spacing-sm);
 }
 
 @keyframes fadeIn {
@@ -75,26 +67,21 @@
   max-width: 600px;
   background-color: var(--color-bg-raised);
   border-radius: var(--radius-lg);
-  padding: var(--spacing-2xl);
+  padding: var(--spacing-xl);
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: var(--shadow-lg);
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
 }
 
 .close-button {
   position: absolute;
-  top: var(--spacing-lg);
-  right: var(--spacing-lg);
+  top: var(--spacing-md);
+  right: var(--spacing-md);
   color: var(--color-text-secondary);
   padding: var(--spacing-xs);
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.3);
+  z-index: 10;
 }
 
 .close-button:hover {
@@ -105,60 +92,49 @@
 .modal-header {
   display: flex;
   align-items: center;
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
-  padding-bottom: var(--spacing-lg);
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
   border-bottom: 1px solid var(--color-border);
 }
 
-.avatar-large {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: var(--color-bg-deep);
-  border: 3px solid var(--color-accent-main);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-accent-main);
-  box-shadow: var(--shadow-glow);
-}
-
 .modal-title h2 {
-  font-size: 2rem;
+  font-size: 1.6rem;
   margin-bottom: var(--spacing-xs);
+  word-break: break-word;
 }
 
 .section-title {
   color: var(--color-accent-main);
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
   text-transform: uppercase;
   letter-spacing: 1px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 .bio-text {
   color: var(--color-text-primary);
-  line-height: 1.8;
-  margin-bottom: var(--spacing-2xl);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-xl);
   opacity: 0.9;
+  font-size: 0.95rem;
 }
 
 .contact-links {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: var(--spacing-md);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--spacing-sm);
 }
 
 .contact-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-sm);
-  padding: 0.75rem 1rem;
+  gap: var(--spacing-xs);
+  padding: 0.6rem 0.8rem;
   border-radius: var(--radius-md);
   font-weight: 500;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   background-color: rgba(255, 255, 255, 0.05);
   transition: all var(--transition-fast);
   border: 1px solid var(--color-border);
@@ -170,23 +146,43 @@
   border-color: var(--color-accent-main);
 }
 
-.star-btn {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  background: rgba(255, 184, 0, 0.1);
-  color: var(--color-accent-main);
-  border: 1px solid rgba(255, 184, 0, 0.3);
-  padding: 0.4rem 0.8rem;
-  border-radius: var(--radius-pill);
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: all var(--transition-fast);
-}
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .directory-card {
+    padding: var(--spacing-md);
+  }
 
-.star-btn:hover {
-  background: var(--color-accent-main);
-  color: var(--color-bg-deep);
-  transform: scale(1.05);
-  box-shadow: 0 0 10px rgba(255, 184, 0, 0.4);
+  .card-header h3 {
+    font-size: 1rem;
+  }
+
+  .role-tag {
+    font-size: 0.65rem;
+    padding: 0.12rem 0.45rem;
+  }
+
+  .modal-content {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-md);
+    max-height: 95vh;
+  }
+
+  .modal-title h2 {
+    font-size: 1.3rem;
+  }
+
+  .bio-text {
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  .contact-links {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xs);
+  }
+
+  .contact-btn {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.75rem;
+  }
 }

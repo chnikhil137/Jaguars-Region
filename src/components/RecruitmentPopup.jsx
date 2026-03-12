@@ -25,7 +25,7 @@ export default function RecruitmentPopup() {
       // Small delay to let the page load before pulling focus
       const timer = setTimeout(() => {
         setIsOpen(true);
-      }, 3000);
+      }, 2000);
       return () => clearTimeout(timer);
     }
   }, []);
