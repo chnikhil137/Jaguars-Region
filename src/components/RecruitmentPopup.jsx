@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { X, ArrowRight, UserPlus, Star } from 'lucide-react';
+import { X, UserPlus, Star } from 'lucide-react';
 import { submitLead } from '../services/db';
 import './RecruitmentPopup.css';
 
@@ -9,7 +9,6 @@ export default function RecruitmentPopup() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const location = useLocation();
 
-  // Form State
   const [formData, setFormData] = useState({
     name: '',
     contact: '',
@@ -18,34 +17,33 @@ export default function RecruitmentPopup() {
   });
 
   useEffect(() => {
-    // Only show on the home page, not splash or other routes
+    // Only trigger on /home
     if (location.pathname !== '/home') return;
 
-    // Check if user has already explicitly closed the popup
-    const hasClosedPopup = localStorage.getItem('jaguars_recruitment_closed');
-    if (!hasClosedPopup) {
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
+    // Reset if previously closed, but show again on fresh visit
+    const hasClosedPopup = sessionStorage.getItem('jaguars_popup_dismissed');
+    if (hasClosedPopup) return;
+
+    // Show after exactly 2 seconds
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, [location.pathname]);
 
   const closePopup = () => {
     setIsOpen(false);
-    localStorage.setItem('jaguars_recruitment_closed', 'true');
+    sessionStorage.setItem('jaguars_popup_dismissed', 'true');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.contact || !formData.experience) return;
 
-    // Submit to Supabase
     await submitLead(formData);
-
     setIsSubmitted(true);
     
-    // Auto-close after 3 seconds
     setTimeout(() => {
       closePopup();
     }, 3000);
