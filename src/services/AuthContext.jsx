@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
       .from('members')
       .select('*')
       .eq('user_id', authUser.id)
-      .single();
+      .maybeSingle();
     setMemberProfile(data || null);
   };
 
