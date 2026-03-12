@@ -64,6 +64,40 @@ export default function AuthPage() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/home`
+        }
+      });
+      if (error) throw error;
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    if (!email) {
+      setError('Please enter your email address first.');
+      return;
+    }
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth?reset=true`,
+      });
+      if (error) throw error;
+      setSuccessMessage('Password reset link sent! Check your email.');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="auth-page">
       <div className="auth-card glass-panel">
@@ -108,11 +142,28 @@ export default function AuthPage() {
             </button>
           </div>
 
+          {!isSignUp && (
+            <div style={{ textAlign: 'right' }}>
+              <button type="button" onClick={handleForgotPassword} className="auth-link-text">
+                Forgot password?
+              </button>
+            </div>
+          )}
+
           <button type="submit" className="btn btn-primary auth-submit" disabled={loading}>
             {loading ? 'Please wait...' : (isSignUp ? 'Create Account' : 'Sign In')}
             {!loading && <ArrowRight size={18} />}
           </button>
         </form>
+
+        <div className="auth-divider">
+          <span>OR</span>
+        </div>
+
+        <button type="button" className="auth-google-btn" onClick={handleGoogleSignIn} disabled={loading}>
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="18" height="18" />
+          Continue with Google
+        </button>
 
         <div className="auth-toggle">
           <span>{isSignUp ? 'Already have an account?' : "Don't have an account?"}</span>
@@ -120,10 +171,6 @@ export default function AuthPage() {
             {isSignUp ? 'Sign In' : 'Sign Up'}
           </button>
         </div>
-
-        <button className="auth-back" onClick={() => navigate('/home')}>
-          ← Back to Directory
-        </button>
       </div>
     </div>
   );

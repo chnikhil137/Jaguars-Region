@@ -76,39 +76,34 @@ export async function getMemberByAuthId(authId) {
   return data;
 }
 
-// Upvote a member (uses security definer function if available, falls back to direct update)
-export async function upvoteUser(userId) {
-  // Try the RPC function first
-  const { error: rpcError } = await supabase.rpc('upvote_member', { member_id: userId });
+// Toggle upvote (1 per user)
+export async function toggleUpvote(memberId) {
+  const { data, error } = await supabase.rpc('toggle_upvote', { target_member_id: memberId });
   
-  if (!rpcError) {
-    window.dispatchEvent(new Event('db_updated'));
-    return;
-  }
-
-  // Fallback: direct update
-  const { data: member, error: fetchError } = await supabase
-    .from('members')
-    .select('stars')
-    .eq('id', userId)
-    .single();
-
-  if (fetchError) {
-    console.error('Error fetching member for upvote:', fetchError);
-    return;
-  }
-
-  const { error: updateError } = await supabase
-    .from('members')
-    .update({ stars: (member.stars || 0) + 1 })
-    .eq('id', userId);
-
-  if (updateError) {
-    console.error('Error upvoting member:', updateError);
-    return;
+  if (error) {
+    console.error('Error toggling upvote:', error);
+    return null;
   }
 
   window.dispatchEvent(new Event('db_updated'));
+  return data; // Returns true if added, false if removed
+}
+
+// Fetch upvotes for the current user to show active state
+export async function getUserUpvotes() {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data, error } = await supabase
+    .from('member_upvotes')
+    .select('member_id')
+    .eq('voter_id', user.id);
+
+  if (error) {
+    console.error('Error fetching user upvotes:', error);
+    return [];
+  }
+  return data.map(v => v.member_id);
 }
 
 // Submit a lead application

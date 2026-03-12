@@ -70,8 +70,24 @@
   font-weight: 300;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
+  .splash-title {
+    font-size: 2.2rem;
+    letter-spacing: 0.15em;
+  }
   .splash-subtitle {
-    font-size: 1.2rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+  }
+}
+
+@media (max-width: 480px) {
+  .splash-title {
+    font-size: 1.8rem;
+    letter-spacing: 0.1em;
+  }
+  .splash-subtitle {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
   }
 }

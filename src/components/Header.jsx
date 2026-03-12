@@ -27,20 +27,17 @@ export default function Header() {
   return (
     <header className="header glass-panel">
       <div className="container header-container">
-        {isHome && !isLoggedIn && (
-          <Link to="/auth" className="cta-link">
-            ✦ Be a Jaguar — join our film community →
-          </Link>
-        )}
-        {isHome && isLoggedIn && !hasProfile && (
-          <Link to="/register" className="cta-link">
-            ✦ Complete your Jaguars profile →
-          </Link>
-        )}
         {isLoggedIn && (
-          <Link to="/dashboard" className="dash-link">
-            <User size={16} /> My Profile
-          </Link>
+          <>
+            <Link to="/home" className="header-logo" style={{ textDecoration: 'none', color: 'var(--color-accent-main)', fontWeight: 'bold' }}>
+              JAGUARS
+            </Link>
+            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <Link to="/dashboard" className="dash-link">
+                <User size={16} /> My Profile
+              </Link>
+            </div>
+          </>
         )}
       </div>
     </header>

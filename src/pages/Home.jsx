@@ -1,24 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { useStore } from '../services/store';
-import FilterBar from '../components/FilterBar';
-import DirectoryCard from '../components/DirectoryCard';
+import { useAuth } from '../services/AuthContext';
+import { toggleUpvote, getUserUpvotes } from '../services/db';
 
 export default function Home() {
-  const { users, isLoading } = useStore();
+  const { users } = useStore();
+  const { user: currentUser } = useAuth();
   const [activeFilter, setActiveFilter] = useState('All');
-  const [filteredUsers, setFilteredUsers] = useState(users);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [userUpvotes, setUserUpvotes] = useState([]);
+
+  useEffect(() => {
+    const fetchUpvotes = async () => {
+      const upvotedIds = await getUserUpvotes();
+      setUserUpvotes(upvotedIds);
+    };
+    fetchUpvotes();
+  }, []);
 
   useEffect(() => {
     let filtered = users;
     if (activeFilter !== 'All') {
       filtered = users.filter(user => user.role.includes(activeFilter));
     }
-    // Sort primarily by creation date (newest first)
+    
+    // Custom sort: My card first, then by stars/date
     const sorted = [...filtered].sort((a, b) => {
-      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      if (currentUser) {
+        if (a.user_id === currentUser.id) return -1;
+        if (b.user_id === currentUser.id) return 1;
+      }
+      return (b.stars || 0) - (a.stars || 0) || new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
     });
     setFilteredUsers(sorted);
-  }, [users, activeFilter]);
+  }, [users, activeFilter, currentUser]);
+
+  const handleUpvote = async (memberId) => {
+    const added = await toggleUpvote(memberId);
+    if (added !== null) {
+      if (added) {
+        setUserUpvotes(prev => [...prev, memberId]);
+      } else {
+        setUserUpvotes(prev => prev.filter(id => id !== memberId));
+      }
+    }
+  };
 
   return (
     <div className="home-page animate-fade-in">
@@ -38,7 +62,12 @@ export default function Home() {
         {filteredUsers.length > 0 ? (
           <div className="masonry-grid">
             {filteredUsers.map(user => (
-              <DirectoryCard key={user.id} user={user} />
+              <DirectoryCard 
+                key={user.id} 
+                user={user} 
+                isUpvoted={userUpvotes.includes(user.id)}
+                onUpvote={handleUpvote}
+              />
             ))}
           </div>
         ) : (

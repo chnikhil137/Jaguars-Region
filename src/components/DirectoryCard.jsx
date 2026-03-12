@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { User, Mail, Phone, Instagram, Globe, X, Link as LinkIcon, MapPin } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useStore } from '../services/store';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../services/AuthContext';
 import './DirectoryCard.css';
 
-export default function DirectoryCard({ user }) {
+export default function DirectoryCard({ user, isUpvoted, onUpvote }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { upvoteUser } = useStore();
+  const { user: currentUser } = useAuth();
+  const navigate = useNavigate();
 
+  const isOwnCard = currentUser && user.user_id === currentUser.id;
   const toggleExpand = () => setIsExpanded(!isExpanded);
 
   // Helper to format URLs
@@ -66,7 +66,13 @@ export default function DirectoryCard({ user }) {
             
             <div className="modal-header">
               <div className="modal-title">
-                <h2>{user.name}</h2>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <h2>{user.name} {isOwnCard && <span className="own-badge">(You)</span>}</h2>
+                  <div className="star-rating" onClick={() => onUpvote(user.id)}>
+                    <Star size={20} fill={isUpvoted ? "var(--color-accent-main)" : "none"} color={isUpvoted ? "var(--color-accent-main)" : "var(--color-text-muted)"} />
+                    <span>{user.stars || 0}</span>
+                  </div>
+                </div>
                 {user.location && user.location !== 'Not Specified' && (
                   <div style={{display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-text-secondary)', fontSize: '0.95rem', marginTop: '4px', marginBottom: '12px'}}>
                     <MapPin size={16} /> {user.location}
@@ -83,6 +89,12 @@ export default function DirectoryCard({ user }) {
             <div className="modal-body">
               <h4 className="section-title">Bio</h4>
               <p className="bio-text">{user.bio || 'No bio provided.'}</p>
+
+              {isOwnCard && (
+                <button className="btn btn-primary edit-profile-btn" onClick={() => navigate('/dashboard')}>
+                   Edit Profile
+                </button>
+              )}
 
               <h4 className="section-title">Connect</h4>
               <div className="contact-links">

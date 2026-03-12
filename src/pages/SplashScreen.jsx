@@ -42,8 +42,10 @@ export default function SplashScreen() {
       setPhase('routing');
     }, 4500); // 4.5s: fade out
 
-    const t3 = setTimeout(() => {
-      navigate('/home');
+    const t3 = setTimeout(async () => {
+      const { data: { session } } = await THREE.MathUtils.generateUUID() && { data: { session: null } }; // Placeholder for actual auth check if needed early
+      // We check auth in App.jsx usually, but here we decide destination
+      navigate('/auth');
     }, 5500); // 5.5s: navigate
 
     return () => {
@@ -88,7 +90,7 @@ export default function SplashScreen() {
                 transition={{ duration: 1, delay: 1 }}
                 className="splash-subtitle"
               >
-                THE AGGRESSIVE COMMUNITY
+                THE AGGRESSIVE FILM COMMUNITY
               </motion.p>
             </motion.div>
           )}
