@@ -25,7 +25,8 @@ export async function addUser(userData) {
     contact_email: userData.contact_email || '',
     contact_phone: userData.contact_phone || '',
     custom_links: userData.custom_links || [],
-    stars: 0
+    stars: 0,
+    user_id: userData.user_id || null
   };
 
   const { data, error } = await supabase
@@ -39,14 +40,53 @@ export async function addUser(userData) {
     return null;
   }
 
-  // Dispatch event so other components can react
   window.dispatchEvent(new Event('db_updated'));
   return data;
 }
 
-// Upvote a member
+// Update a member's profile
+export async function updateUser(memberId, updates) {
+  const { data, error } = await supabase
+    .from('members')
+    .update(updates)
+    .eq('id', memberId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error updating member:', error);
+    return null;
+  }
+
+  window.dispatchEvent(new Event('db_updated'));
+  return data;
+}
+
+// Get member profile by auth user ID
+export async function getMemberByAuthId(authId) {
+  const { data, error } = await supabase
+    .from('members')
+    .select('*')
+    .eq('user_id', authId)
+    .single();
+
+  if (error) {
+    return null;
+  }
+  return data;
+}
+
+// Upvote a member (uses security definer function if available, falls back to direct update)
 export async function upvoteUser(userId) {
-  // First get current stars
+  // Try the RPC function first
+  const { error: rpcError } = await supabase.rpc('upvote_member', { member_id: userId });
+  
+  if (!rpcError) {
+    window.dispatchEvent(new Event('db_updated'));
+    return;
+  }
+
+  // Fallback: direct update
   const { data: member, error: fetchError } = await supabase
     .from('members')
     .select('stars')

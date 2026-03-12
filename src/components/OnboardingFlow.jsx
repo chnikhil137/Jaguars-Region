@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../services/store';
+import { useAuth } from '../services/AuthContext';
 import { ArrowLeft, CheckCircle2, Plus, Trash2 } from 'lucide-react';
 import { ROLES_LIST } from './FilterBar';
 import './OnboardingFlow.css';
@@ -8,6 +9,7 @@ import './OnboardingFlow.css';
 export default function OnboardingFlow() {
   const navigate = useNavigate();
   const { registerUser } = useStore();
+  const { user, refreshProfile } = useAuth();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [customRole, setCustomRole] = useState('');
@@ -80,10 +82,12 @@ export default function OnboardingFlow() {
       bio: formData.bio,
       contact_email: formData.email,
       contact_phone: formData.phone,
-      custom_links: validLinks
+      custom_links: validLinks,
+      user_id: user?.id || null
     };
 
     await registerUser(finalData);
+    await refreshProfile();
     
     setIsSubmitting(false);
     navigate('/joined', { state: { success: true } });
