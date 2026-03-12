@@ -101,12 +101,13 @@ export default function AuthPage() {
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="auth-input-group">
             <Mail size={18} className="auth-input-icon" />
-            <input 
-              type="email" 
+            <input
+              type="email"
+              placeholder="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value.trim())}
               required
-              placeholder="admin@jaguars.com"
+              autoComplete="email"
             />
           </div>
 
