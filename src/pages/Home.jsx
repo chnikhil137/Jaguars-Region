@@ -28,10 +28,11 @@ export default function Home() {
       />
       
       <div className="container" style={{ paddingBottom: '4rem' }}>
-        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '2.5rem', background: 'linear-gradient(to right, #fff, var(--color-accent-main))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        <div style={{ marginBottom: '2rem', textAlign: 'center', paddingTop: '1rem' }}>
+          <h2 style={{ fontSize: '1.8rem', background: 'linear-gradient(to right, #fff, var(--color-accent-main))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', whiteSpace: 'nowrap' }}>
             Connect with Jaguars
           </h2>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginTop: '0.3rem' }}>Browse our film community directory</p>
         </div>
 
         {filteredUsers.length > 0 ? (
