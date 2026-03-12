@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Star, Users, Database, RefreshCw } from 'lucide-react';
-import { getUsers, getLeads } from '../services/db';
+import { LogOut, Star, Users, Database, RefreshCw, Trash2 } from 'lucide-react';
+import { getUsers, getLeads, deleteUser } from '../services/db';
 import './Admin.css';
 
 export default function AdminDashboard({ onLogout }) {
@@ -25,6 +25,17 @@ export default function AdminDashboard({ onLogout }) {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleDeleteMember = async (id, name) => {
+    if (window.confirm(`Are you sure you want to delete ${name} from the directory? This action cannot be undone.`)) {
+      const success = await deleteUser(id);
+      if (success) {
+        setMembers(prev => prev.filter(m => m.id !== id));
+      } else {
+        alert('Failed to delete member. Check console for details.');
+      }
+    }
+  };
 
   const handleLogout = () => {
     onLogout();
@@ -129,6 +140,7 @@ export default function AdminDashboard({ onLogout }) {
                     <th>Name / Location</th>
                     <th>Roles</th>
                     <th>Primary Contact</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -149,6 +161,23 @@ export default function AdminDashboard({ onLogout }) {
                       <td>
                         <div>{member.contact_email}</div>
                         <div style={{fontSize: '0.85rem'}}>{member.contact_phone}</div>
+                      </td>
+                      <td>
+                        <button 
+                          onClick={() => handleDeleteMember(member.id, member.name)}
+                          style={{
+                            background: 'none', 
+                            border: 'none', 
+                            color: 'var(--color-text-muted)', 
+                            cursor: 'pointer',
+                            padding: '0.5rem'
+                          }}
+                          onMouseEnter={(e) => e.currentTarget.style.color = '#ff4444'}
+                          onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-text-muted)'}
+                          title="Delete Member"
+                        >
+                          <Trash2 size={18} />
+                        </button>
                       </td>
                     </tr>
                   ))}

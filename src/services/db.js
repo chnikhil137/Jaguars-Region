@@ -139,3 +139,19 @@ export async function getLeads() {
   }
   return data || [];
 }
+
+// Delete a member (admin only)
+export async function deleteUser(memberId) {
+  const { error } = await supabase
+    .from('members')
+    .delete()
+    .eq('id', memberId);
+
+  if (error) {
+    console.error('Error deleting member:', error);
+    return false;
+  }
+  
+  window.dispatchEvent(new Event('db_updated'));
+  return true;
+}
