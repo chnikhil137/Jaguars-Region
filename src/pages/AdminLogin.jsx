@@ -17,24 +17,30 @@ export default function AdminLogin({ onLogin }) {
     setIsLoading(true);
 
     try {
-      if (email !== 'chnikhil137@gmail.com') {
-        throw new Error('Unrecognized personnel.');
+      const cleanEmail = email.trim();
+      if (cleanEmail !== 'cheichill137@gmail.com') {
+        throw new Error('Unrecognised personnel.');
       }
 
       // We must authenticate with Supabase so RLS allows fetching users and leads
       const { error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password
+        email: cleanEmail,
+        password: password.trim()
       });
       
-      if (signInError) throw signInError;
+      if (signInError) {
+        if (signInError.status === 400) {
+          throw new Error('Invalid credentials or account does not exist.');
+        }
+        throw signInError;
+      }
 
       // Maintain the hardcoded check for the central unit UI
-      if (password === 'Nikhilch@031106') {
+      if (password.trim() === 'Nikhilch@031106') {
         onLogin();
       } else {
         await supabase.auth.signOut();
-        throw new Error('Invalid admin credentials.');
+        throw new Error('Access Denied: Invalid admin password.');
       }
     } catch (err) {
       setError(err.message || 'Authentication failed.');
@@ -73,6 +79,7 @@ export default function AdminLogin({ onLogin }) {
               onChange={(e) => setEmail(e.target.value)}
               required
               placeholder="admin@jaguars.com"
+              autoComplete="username"
             />
           </div>
 
@@ -84,6 +91,7 @@ export default function AdminLogin({ onLogin }) {
               onChange={(e) => setPassword(e.target.value)}
               required
               placeholder="••••••••"
+              autoComplete="current-password"
             />
           </div>
 
