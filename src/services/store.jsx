@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { getUsers, addUser, upvoteUser } from './db.js';
+import { getUsers, addUser } from './db.js';
 
 const StoreContext = createContext();
 
@@ -31,12 +31,8 @@ export function StoreProvider({ children }) {
     return newUser;
   };
 
-  const handleUpvote = async (userId) => {
-    await upvoteUser(userId);
-  };
-
   return (
-    <StoreContext.Provider value={{ users, isLoading, registerUser, upvoteUser: handleUpvote }}>
+    <StoreContext.Provider value={{ users, isLoading, registerUser }}>
       {children}
     </StoreContext.Provider>
   );
