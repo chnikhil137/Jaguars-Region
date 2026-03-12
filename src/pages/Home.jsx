@@ -1,12 +1,25 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useStore } from '../services/store';
 import { useAuth } from '../services/AuthContext';
 import { toggleUpvote, getUserUpvotes } from '../services/db';
+import FilterBar from '../components/FilterBar';
+import DirectoryCard from '../components/DirectoryCard';
 
 export default function Home() {
-  const { users } = useStore();
-  const { user: currentUser } = useAuth();
+  const { users, isLoading: storeLoading } = useStore();
+  const { user: currentUser, memberProfile, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState('All');
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [userUpvotes, setUserUpvotes] = useState([]);
+
+  // If logged in but no profile, send to registration
+  useEffect(() => {
+    if (!authLoading && currentUser && !memberProfile) {
+      navigate('/register');
+    }
+  }, [currentUser, memberProfile, authLoading, navigate]);
 
   useEffect(() => {
     const fetchUpvotes = async () => {

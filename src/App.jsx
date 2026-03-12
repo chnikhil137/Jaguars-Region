@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './services/AuthContext';
+import { AuthProvider, useAuth } from './services/AuthContext';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import Success from './pages/Success';
@@ -12,8 +12,19 @@ import RecruitmentPopup from './components/RecruitmentPopup';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
 
+const ProtectedRoute = ({ children, requireProfile = false }) => {
+  const { user, memberProfile, loading } = useAuth();
+  
+  if (loading) return <div className="loading-screen">Loading...</div>;
+  if (!user) return <Navigate to="/auth" replace />;
+  if (requireProfile && !memberProfile) return <Navigate to="/register" replace />;
+  
+  return children;
+};
+
 function App() {
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  
   return (
     <Router>
       <AuthProvider>
@@ -22,12 +33,17 @@ function App() {
           <RecruitmentPopup />
           <main>
             <Routes>
+              {/* Public Routes */}
               <Route path="/" element={<SplashScreen />} />
-              <Route path="/home" element={<Home />} />
               <Route path="/auth" element={<AuthPage />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/joined" element={<Success />} />
+              
+              {/* Routes that only require being logged in */}
+              <Route path="/register" element={<ProtectedRoute><Register /></ProtectedRoute>} />
+              <Route path="/joined" element={<ProtectedRoute><Success /></ProtectedRoute>} />
+              
+              {/* Routes that require being logged in AND having a profile */}
+              <Route path="/home" element={<ProtectedRoute requireProfile><Home /></ProtectedRoute>} />
+              <Route path="/dashboard" element={<ProtectedRoute requireProfile><Dashboard /></ProtectedRoute>} />
               
               {/* Secret Admin Route */}
               <Route 

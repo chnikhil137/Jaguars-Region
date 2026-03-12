@@ -1,4 +1,7 @@
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { User, Mail, Phone, Instagram, Globe, X, Link as LinkIcon, MapPin, Star } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../services/AuthContext';
 import './DirectoryCard.css';
 
