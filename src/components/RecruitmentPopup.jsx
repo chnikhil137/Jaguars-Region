@@ -19,20 +19,20 @@ export default function RecruitmentPopup() {
     // Only show on actual app routes, not splash
     if (window.location.pathname === '/') return;
 
-    // Check if user has already seen or dismissed the popup
-    const hasSeenPopup = localStorage.getItem('jaguars_recruitment_seen');
-    if (!hasSeenPopup) {
+    // Check if user has already explicitly closed the popup
+    const hasClosedPopup = localStorage.getItem('jaguars_recruitment_closed');
+    if (!hasClosedPopup) {
       // Small delay to let the page load before pulling focus
       const timer = setTimeout(() => {
         setIsOpen(true);
-      }, 1500);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, []);
 
   const closePopup = () => {
     setIsOpen(false);
-    localStorage.setItem('jaguars_recruitment_seen', 'true');
+    localStorage.setItem('jaguars_recruitment_closed', 'true');
   };
 
   const handleSubmit = async (e) => {
