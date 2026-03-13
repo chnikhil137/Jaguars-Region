@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
       if (error) throw error;
       setMemberProfile(data && data.length > 0 ? data[0] : null);
     } catch (err) {
-      console.error("Profile load error:", import.meta.env.DEV ? err : 'Internal Auth Error');
+      console.error("Profile load error:", import.meta.env.DEV ? err : "Auth error");
       setMemberProfile(null);
     }
   };

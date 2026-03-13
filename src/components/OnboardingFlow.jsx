@@ -93,7 +93,7 @@ export default function OnboardingFlow() {
       await refreshProfile();
       navigate('/joined', { state: { success: true } });
     } catch (err) {
-      console.error("Submission error:", err);
+      console.error("Submission error:", import.meta.env.DEV ? err : "Onboarding failed");
       alert("Something went wrong joining: " + err.message);
     } finally {
       setIsSubmitting(false);
