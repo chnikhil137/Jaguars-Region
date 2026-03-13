@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Mail, Phone, Instagram, Globe, X, Link as LinkIcon, MapPin, Star } from 'lucide-react';
+import { User, Mail, Phone, Instagram, Globe, X, Link as LinkIcon, MapPin, Star, MessageSquare } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../services/AuthContext';
 import './DirectoryCard.css';
@@ -83,11 +83,25 @@ export default function DirectoryCard({ user, isUpvoted, onUpvote }) {
                     <span>{Math.max(0, user.stars || 0)}</span>
                   </div>
                 </div>
-                {user.location && user.location !== 'Not Specified' && (
-                  <div style={{display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--color-text-secondary)', fontSize: '0.95rem', marginTop: '4px', marginBottom: '12px'}}>
-                    <MapPin size={16} /> {user.location}
-                  </div>
-                )}
+                
+                <div className="demographics-row">
+                  {user.location && user.location !== 'Not Specified' && (
+                    <div className="demographic-item">
+                      <MapPin size={14} /> {user.location}
+                    </div>
+                  )}
+                  {user.gender && (
+                    <div className="demographic-item">
+                      <User size={14} /> {user.gender}
+                    </div>
+                  )}
+                  {user.language && (
+                    <div className="demographic-item" style={{maxWidth: '150px'}} title={user.language}>
+                      <MessageSquare size={14} /> <span className="truncate">{user.language}</span>
+                    </div>
+                  )}
+                </div>
+
                 <div className="role-tags">
                   {user.role.map((r, i) => (
                     <span key={i} className="role-tag">{r}</span>

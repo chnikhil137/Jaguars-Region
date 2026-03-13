@@ -104,6 +104,28 @@
   word-break: break-word;
 }
 
+.demographics-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-sm) var(--spacing-md);
+  margin: var(--spacing-xs) 0 var(--spacing-md) 0;
+}
+
+.demographic-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .section-title {
   color: var(--color-accent-main);
   margin-bottom: var(--spacing-sm);

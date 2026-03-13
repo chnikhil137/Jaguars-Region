@@ -19,6 +19,7 @@ export default function OnboardingFlow() {
     role: [],
     location: '',
     gender: '',
+    language: '',
     bio: '',
     email: '',
     phone: '',
@@ -81,6 +82,7 @@ export default function OnboardingFlow() {
       role: finalRoles,
       location: formData.location,
       gender: formData.gender,
+      language: formData.language,
       bio: formData.bio,
       contact_email: formData.email,
       contact_phone: formData.phone,
@@ -103,7 +105,7 @@ export default function OnboardingFlow() {
   const isStep1Valid = formData.name.trim().length > 2 && formData.role.length > 0 && 
                        (!formData.role.includes('Other') || customRole.trim() !== '') &&
                        formData.location.trim().length > 2 &&
-                       formData.gender !== '';
+                       formData.gender !== '' && formData.language.trim().length > 2;
   const isStep2Valid = formData.bio.length >= 10;
   const isStep3Valid = formData.email.includes('@');
 
@@ -181,6 +183,18 @@ export default function OnboardingFlow() {
                     Female
                   </button>
                 </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="language">Languages Known *</label>
+                <input 
+                  type="text" 
+                  id="language" 
+                  value={formData.language} 
+                  onChange={(e) => setFormData({...formData, language: e.target.value})} 
+                  placeholder="e.g. English, Spanish, Hindi"
+                  required
+                />
               </div>
 
               <div className="form-group">

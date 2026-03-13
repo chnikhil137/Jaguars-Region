@@ -38,6 +38,7 @@ export async function addUser(userData) {
     role: userData.role || [],
     location: userData.location || 'Not Specified',
     gender: userData.gender || '',
+    language: userData.language || '',
     bio: userData.bio || '',
     contact_email: userData.contact_email || '',
     contact_phone: userData.contact_phone || '',
