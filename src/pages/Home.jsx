@@ -62,7 +62,7 @@ export default function Home() {
       <div className="container" style={{ paddingBottom: '4rem' }}>
         <div style={{ marginBottom: '2rem', textAlign: 'center', paddingTop: '1rem' }}>
           <h2 style={{ fontSize: '1.8rem', background: 'linear-gradient(to right, #fff, var(--color-accent-main))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            Connect with Jaguars | My Jaguars Region
+            Connect with Jaguars
           </h2>
           <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginTop: '0.6rem', lineHeight: '1.5', maxWidth: '600px', margin: '0.6rem auto 0 auto' }}>
             Dive into the most aggressive film community. Discover powerful members, connect over shared visions, and collaborate to create cinematic masterpieces.
