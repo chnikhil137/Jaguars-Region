@@ -38,9 +38,15 @@
 
 .landing-slide.active {
   opacity: 1;
-  transform: scale(1.05); /* Slowly scale to 1.05 while active */
+  transform: scale(1.10); /* Increased from 1.05 to 1.10 */
   /* Fade in over 2s, and scale up smoothly over 10s */
   transition: opacity 2s ease-in-out, transform 10s linear;
+}
+
+/* Disable zoom for desktop as requested */
+.landing-slide.desktop-slide.active {
+  transform: scale(1) !important;
+  transition: opacity 2s ease-in-out;
 }
 
 /* Desktop vs Mobile display logic */

@@ -4,11 +4,7 @@ import { Users, Sparkles, ArrowRight } from 'lucide-react';
 import './LandingPage.css';
 
 const desktopImages = [
-  '/images/hero/desktop/desktop_1.jpeg',
-  '/images/hero/desktop/desktop_2.jpeg',
-  '/images/hero/desktop/desktop_3.jpeg',
-  '/images/hero/desktop/desktop_4.jpeg',
-  '/images/hero/desktop/desktop_5.jpeg'
+  '/images/hero/desktop/desktop_1.jpeg'
 ];
 
 const mobileImages = [
@@ -26,8 +22,11 @@ export default function LandingPage() {
 
   // Crossfade every 5 seconds
   useEffect(() => {
+    // We cycle based on the mobile count since it has more photos
+    const maxCount = Math.max(desktopImages.length, mobileImages.length);
+    
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % desktopImages.length);
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % maxCount);
     }, 5000); 
 
     return () => clearInterval(interval);
