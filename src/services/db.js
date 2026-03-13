@@ -9,14 +9,30 @@ export async function getUsers() {
     .order('created_at', { ascending: false });
   
   if (error) {
-    console.error('Error fetching members:', error);
+    console.error('Error fetching members:', import.meta.env.DEV ? error : 'Internal server error');
     return [];
   }
   return data || [];
 }
 
+// Rate limiting cache
+const rateLimitCache = {};
+
+const checkRateLimit = (key, limitMs = 3000) => {
+  const now = Date.now();
+  if (rateLimitCache[key] && (now - rateLimitCache[key]) < limitMs) {
+    return false; // Rate limited
+  }
+  rateLimitCache[key] = now;
+  return true;
+};
+
 // Add a new member to Supabase
 export async function addUser(userData) {
+  if (!checkRateLimit('addUser', 5000)) {
+    console.warn('Rate limit exceeded for addUser');
+    return null;
+  }
   const newUser = {
     name: userData.name,
     role: userData.role || [],
@@ -37,7 +53,7 @@ export async function addUser(userData) {
     .single();
 
   if (error) {
-    console.error('Error adding member:', error);
+    console.error('Error adding member:', import.meta.env.DEV ? error : 'Internal server error');
     return null;
   }
 
@@ -55,7 +71,7 @@ export async function updateUser(memberId, updates) {
     .single();
 
   if (error) {
-    console.error('Error updating member:', error);
+    console.error('Error updating member:', import.meta.env.DEV ? error : 'Internal server error');
     return null;
   }
 
@@ -79,10 +95,14 @@ export async function getMemberByAuthId(authId) {
 
 // Toggle upvote (1 per user)
 export async function toggleUpvote(memberId) {
+  if (!checkRateLimit(`upvote_${memberId}`, 1500)) {
+    console.warn('Rate limit exceeded for toggleUpvote');
+    return null;
+  }
   const { data, error } = await supabase.rpc('toggle_upvote', { target_member_id: memberId });
   
   if (error) {
-    console.error('Error toggling upvote:', error);
+    console.error('Error toggling upvote:', import.meta.env.DEV ? error : 'Internal server error');
     return null;
   }
 
@@ -101,7 +121,7 @@ export async function getUserUpvotes() {
     .eq('voter_id', user.id);
 
   if (error) {
-    console.error('Error fetching user upvotes:', error);
+    console.error('Error fetching user upvotes:', import.meta.env.DEV ? error : 'Internal server error');
     return [];
   }
   return data.map(v => v.member_id);
@@ -109,6 +129,10 @@ export async function getUserUpvotes() {
 
 // Submit a lead application
 export async function submitLead(leadData) {
+  if (!checkRateLimit('submitLead', 10000)) {
+    console.warn('Rate limit exceeded for submitLead');
+    return null;
+  }
   const { data, error } = await supabase
     .from('leads')
     .insert([{
@@ -121,7 +145,7 @@ export async function submitLead(leadData) {
     .single();
 
   if (error) {
-    console.error('Error submitting lead:', error);
+    console.error('Error submitting lead:', import.meta.env.DEV ? error : 'Internal server error');
     return null;
   }
   return data;
@@ -135,7 +159,7 @@ export async function getLeads() {
     .order('submitted_at', { ascending: false });
 
   if (error) {
-    console.error('Error fetching leads:', error);
+    console.error('Error fetching leads:', import.meta.env.DEV ? error : 'Internal server error');
     return [];
   }
   return data || [];
@@ -149,7 +173,7 @@ export async function deleteUser(memberId) {
     .eq('id', memberId);
 
   if (error) {
-    console.error('Error deleting member:', error);
+    console.error('Error deleting member:', import.meta.env.DEV ? error : 'Internal server error');
     return false;
   }
   

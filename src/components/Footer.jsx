@@ -1,13 +1,14 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Mail } from 'lucide-react';
 import './Footer.css';
 
 export default function Footer() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Hide footer on splash, auth, and admin pages
-  const hiddenPaths = ['/', '/auth', '/admin'];
+  // Hide footer on auth and admin pages
+  const hiddenPaths = ['/auth', '/admin'];
   if (hiddenPaths.some(p => location.pathname === p || location.pathname.startsWith('/admin'))) {
     return null;
   }
@@ -26,16 +27,25 @@ export default function Footer() {
         {/* Quick Links */}
         <div className="footer-links">
           <span className="footer-links-title">Navigate</span>
-          <button className="footer-link" onClick={() => navigate('/home')}>Home</button>
+          <button className="footer-link" onClick={() => navigate('/')}>Home</button>
           <button className="footer-link" onClick={() => navigate('/directory')}>Connect with Jaguars</button>
           <button className="footer-link" onClick={() => navigate('/my-region')}>My Jaguars Region</button>
+          <button className="footer-link" onClick={() => document.getElementById('about-section')?.scrollIntoView({ behavior: 'smooth' }) || navigate('/')}>About Us</button>
         </div>
 
-        {/* Account Links */}
+        {/* Account + Contact */}
         <div className="footer-links">
           <span className="footer-links-title">Account</span>
           <button className="footer-link" onClick={() => navigate('/dashboard')}>My Profile</button>
           <button className="footer-link" onClick={() => navigate('/register')}>Become a Jaguar</button>
+        </div>
+
+        <div className="footer-links">
+          <span className="footer-links-title">Support</span>
+          <a href="mailto:contact@jaguarsregion.in" className="footer-link footer-email-link">
+            <Mail size={14} style={{ marginRight: '4px', verticalAlign: 'middle' }} />
+            contact@jaguarsregion.in
+          </a>
         </div>
       </div>
 

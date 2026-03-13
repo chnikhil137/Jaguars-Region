@@ -39,7 +39,7 @@ export default function AdminDashboard({ onLogout }) {
 
   const handleLogout = () => {
     onLogout();
-    navigate('/home');
+    navigate('/');
   };
 
   const formatDate = (isoString) => {

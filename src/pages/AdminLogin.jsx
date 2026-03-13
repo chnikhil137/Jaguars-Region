@@ -4,6 +4,9 @@ import { Lock, AlertCircle, ArrowLeft } from 'lucide-react';
 import { supabase } from '../services/supabase';
 import './Admin.css';
 
+const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || '';
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || '';
+
 export default function AdminLogin({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,7 +18,7 @@ export default function AdminLogin({ onLogin }) {
   React.useEffect(() => {
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user?.email === 'chnikhil137@gmail.com') {
+      if (session?.user?.email === ADMIN_EMAIL) {
         // If they have the correct session, we still ask for the admin password 
         // to maintain the "Access Control" layer, OR we can auto-login
         // For now, let's at least pre-fill the email
@@ -34,7 +37,7 @@ export default function AdminLogin({ onLogin }) {
       const cleanEmail = email.trim();
       const cleanPassword = password.trim();
 
-      if (cleanEmail !== 'chnikhil137@gmail.com') {
+      if (cleanEmail !== ADMIN_EMAIL) {
         throw new Error('Unrecognised personnel.');
       }
 
@@ -57,7 +60,7 @@ export default function AdminLogin({ onLogin }) {
       }
 
       // 2. Maintain the hardcoded check for the central unit UI
-      if (cleanPassword === 'Nikhilch@031106') {
+      if (cleanPassword === ADMIN_PASSWORD) {
         onLogin();
       } else {
         throw new Error('Access Denied: Invalid admin password.');
@@ -86,7 +89,7 @@ export default function AdminLogin({ onLogin }) {
   return (
     <div className="admin-container">
       <div className="admin-login-card glass-panel">
-        <button className="back-btn" onClick={() => navigate('/home')}>
+        <button className="back-btn" onClick={() => navigate('/')}>
           <ArrowLeft size={20} /> Back to Directory
         </button>
         

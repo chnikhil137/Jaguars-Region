@@ -116,7 +116,7 @@ export default function Dashboard() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    navigate('/home');
+    navigate('/');
   };
 
   if (loading) {
@@ -147,7 +147,7 @@ export default function Dashboard() {
     <div className="dashboard-page">
       <div className="dashboard-card glass-panel">
         <div className="dashboard-top-bar">
-          <button className="dash-back-btn" onClick={() => navigate('/home')}>
+          <button className="dash-back-btn" onClick={() => navigate('/')}>
             <ArrowLeft size={18} /> Directory
           </button>
           <button className="dash-signout-btn" onClick={handleSignOut}>

@@ -13,10 +13,11 @@ export default function DirectoryCard({ user, isUpvoted, onUpvote }) {
   const isOwnCard = currentUser && user.user_id === currentUser.id;
   const toggleExpand = () => setIsExpanded(!isExpanded);
 
-  // Helper to format URLs
   const formatUrl = (url) => {
     if (!url) return '';
-    return url.startsWith('http') ? url : `https://${url}`;
+    const cleanUrl = url.trim();
+    if (cleanUrl.toLowerCase().startsWith('javascript:')) return '#';
+    return cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`;
   };
 
   return (

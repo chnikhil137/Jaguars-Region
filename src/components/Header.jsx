@@ -6,29 +6,22 @@ import './Header.css';
 
 export default function Header() {
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
+  
   const isSplash = location.pathname === '/';
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isAuthPage = location.pathname === '/auth';
-  const isLanding = location.pathname === '/home';
+  const isLanding = location.pathname === '/' || location.pathname === '/home';
 
   // Hide header on splash, admin, auth, and landing pages
-  if (isAdminRoute || isSplash || isAuthPage || isLanding) return null;
-
-  let auth = null;
-  try {
-    auth = useAuth();
-  } catch (e) {
-    // AuthProvider not ready yet
-  }
-
-  const isLoggedIn = auth?.isAuthenticated;
+  if (isAdminRoute || isAuthPage || isLanding) return null;
 
   return (
     <header className="header glass-panel">
       <div className="container header-container">
-        {isLoggedIn && (
+        {isAuthenticated && (
           <>
-            <Link to="/home" className="header-logo" style={{ textDecoration: 'none', color: 'var(--color-accent-main)', fontWeight: 'bold', fontSize: '1.2rem', letterSpacing: '1px' }}>
+            <Link to="/" className="header-logo" style={{ textDecoration: 'none', color: 'var(--color-accent-main)', fontWeight: 'bold', fontSize: '1.2rem', letterSpacing: '1px' }}>
               JAGUARS REGION
             </Link>
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>

@@ -72,6 +72,13 @@
   color: var(--color-accent-main);
 }
 
+.footer-email-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-accent-main) !important;
+  font-weight: 500;
+}
+
 /* Bottom bar */
 .footer-bottom {
   max-width: 1200px;

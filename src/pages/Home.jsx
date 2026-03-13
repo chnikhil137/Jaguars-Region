@@ -81,9 +81,6 @@ export default function Home() {
               <button className="btn btn-primary" onClick={() => navigate('/register')} style={{ padding: '0.6rem 1.2rem' }}>
                  Become a Jaguar
               </button>
-              <button className="btn btn-outline" onClick={() => navigate('/my-region')} style={{ padding: '0.6rem 1.2rem' }}>
-                 <Sparkles size={16} /> My Jaguars Region
-              </button>
             </div>
           </div>
         )}

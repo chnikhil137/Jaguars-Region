@@ -1,3 +1,8 @@
+.landing-page-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .landing-page {
   min-height: 100vh;
   display: flex;
@@ -32,14 +37,12 @@
   background-repeat: no-repeat;
   opacity: 0;
   transform: scale(1);
-  /* During the 2s opacity fade out, hold the scale completely still (delay transform reset by 2s) */
   transition: opacity 2s ease-in-out, transform 0s linear 2s;
 }
 
 .landing-slide.active {
   opacity: 1;
-  transform: scale(1.10); /* Increased from 1.05 to 1.10 */
-  /* Fade in over 2s, and scale up smoothly over 10s */
+  transform: scale(1.10);
   transition: opacity 2s ease-in-out, transform 10s linear;
 }
 
@@ -128,7 +131,7 @@
   color: var(--color-text-secondary);
   line-height: 1.8;
   max-width: 600px;
-  margin: 0 auto var(--spacing-3xl) auto;
+  margin: 0 auto var(--spacing-2xl) auto;
   animation: landingFadeIn 1.2s 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
@@ -144,6 +147,7 @@
   justify-content: center;
   flex-wrap: wrap;
   animation: landingFadeIn 1.2s 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+  margin-bottom: var(--spacing-2xl);
 }
 
 .landing-btn {
@@ -206,9 +210,250 @@
   transform: translateY(-1px);
 }
 
+/* Scroll hint */
+.landing-scroll-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  animation: bounceDown 2s ease-in-out infinite;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.landing-scroll-hint:hover {
+  opacity: 1;
+  color: var(--color-accent-main);
+}
+
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
 
 
-/* Mobile responsive */
+/* ───────────────────── ABOUT SECTION ───────────────────── */
+
+.about-section {
+  background: linear-gradient(180deg, #050505 0%, #0a0a0a 50%, #050505 100%);
+  padding: 6rem var(--spacing-xl) 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent-main), transparent);
+}
+
+.about-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  background: rgba(229, 9, 20, 0.06);
+  color: var(--color-accent-main);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-lg);
+}
+
+.about-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: #fff;
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.2;
+}
+
+.about-accent {
+  background: linear-gradient(135deg, #E50914, #ff6b6b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-narrative {
+  font-size: 1.1rem;
+  line-height: 1.9;
+  color: var(--color-text-secondary);
+  max-width: 700px;
+  margin: 0 auto var(--spacing-3xl) auto;
+}
+
+.about-narrative strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Pillar Cards */
+.about-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.about-pillar {
+  padding: 2rem 1.5rem;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  transition: all 0.3s ease;
+  background: rgba(17, 17, 17, 0.6);
+  border: 1px solid var(--color-border);
+}
+
+.about-pillar:hover {
+  transform: translateY(-6px);
+  border-color: rgba(229, 9, 20, 0.3);
+  box-shadow: 0 12px 40px rgba(229, 9, 20, 0.08);
+}
+
+.pillar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(229, 9, 20, 0.1);
+  color: var(--color-accent-main);
+  margin-bottom: var(--spacing-md);
+}
+
+.about-pillar h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin-bottom: var(--spacing-sm);
+  color: #fff;
+}
+
+.about-pillar p {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .about-section {
+    padding: 4rem var(--spacing-md) 3rem;
+  }
+
+  .about-pillars {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .about-narrative {
+    font-size: 1rem;
+  }
+}
+
+
+/* ───────────────────── CONTACT SECTION ───────────────────── */
+
+.contact-section {
+  background: #050505;
+  padding: 4rem var(--spacing-xl) 5rem;
+}
+
+.contact-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-card {
+  text-align: center;
+  padding: 3rem 2.5rem;
+  border-radius: var(--radius-lg);
+  background: rgba(17, 17, 17, 0.6);
+  border: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-accent-main), transparent);
+}
+
+.contact-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(229, 9, 20, 0.1);
+  color: var(--color-accent-main);
+  margin-bottom: var(--spacing-lg);
+}
+
+.contact-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  margin-bottom: var(--spacing-md);
+  color: #fff;
+}
+
+.contact-desc {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: var(--spacing-xl);
+}
+
+.contact-email-link {
+  display: inline-block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--color-accent-main);
+  text-decoration: none;
+  padding: 0.8rem 2rem;
+  border: 2px solid var(--color-accent-main);
+  border-radius: var(--radius-pill);
+  transition: all 0.3s ease;
+  margin-bottom: var(--spacing-md);
+}
+
+.contact-email-link:hover {
+  background: var(--color-accent-main);
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(229, 9, 20, 0.35);
+  transform: translateY(-2px);
+}
+
+.contact-subtext {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
 @media (max-width: 640px) {
   .landing-page {
     padding: var(--spacing-lg) var(--spacing-md);
@@ -224,5 +469,18 @@
     width: 100%;
     max-width: 280px;
     justify-content: center;
+  }
+
+  .contact-section {
+    padding: 3rem var(--spacing-md) 4rem;
+  }
+
+  .contact-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .contact-email-link {
+    font-size: 1rem;
+    padding: 0.6rem 1.4rem;
   }
 }

@@ -4,7 +4,7 @@ import './FilterBar.css';
 
 export const ROLES_LIST = [
   'Actor', 'Actress', 'Music Director', 'Playback Singer', 'Director', 
-  'Cinematographer', 'Social Media Manager', 'Marketing', 'Production', 
+  'Cinematographer', 'Editor', 'Social Media Manager', 'Marketing', 'Production', 
   'Graphical Designer', 'AI Creator', 'Scriptwriter', 'Colour Grading', 'Animations', 'CGI VFX', 'Other'
 ];
 

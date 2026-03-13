@@ -6,11 +6,11 @@ import Home from './pages/Home';
 import MyRegion from './pages/MyRegion';
 import Register from './pages/Register';
 import Success from './pages/Success';
-import SplashScreen from './pages/SplashScreen';
 import AuthPage from './pages/AuthPage';
 import Dashboard from './pages/Dashboard';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import ErrorBoundary from './components/ErrorBoundary';
 import RecruitmentPopup from './components/RecruitmentPopup';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
@@ -31,41 +31,45 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="app-container">
-          <Header />
-          <RecruitmentPopup />
-          <main>
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/" element={<SplashScreen />} />
-              <Route path="/auth" element={<AuthPage />} />
-              
-              {/* Routes that only require being logged in */}
-              <Route path="/register" element={<ProtectedRoute><Register /></ProtectedRoute>} />
-              <Route path="/joined" element={<ProtectedRoute><Success /></ProtectedRoute>} />
-              <Route path="/home" element={<ProtectedRoute><LandingPage /></ProtectedRoute>} />
-              <Route path="/directory" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-              <Route path="/my-region" element={<ProtectedRoute><MyRegion /></ProtectedRoute>} />
-              
-              {/* Routes that require being logged in AND having a profile */}
-              <Route path="/dashboard" element={<ProtectedRoute requireProfile><Dashboard /></ProtectedRoute>} />
-              
-              {/* Secret Admin Route */}
-              <Route 
-                path="/admin" 
-                element={
-                  isAdminAuthenticated ? 
-                  <AdminDashboard onLogout={() => setIsAdminAuthenticated(false)} /> : 
-                  <AdminLogin onLogin={() => setIsAdminAuthenticated(true)} />
-                } 
-              />
-              
-              {/* Catch-all redirect */}
-              <Route path="*" element={<Navigate to="/home" replace />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
+        <ErrorBoundary>
+          <div className="app-container">
+            <Header />
+            <RecruitmentPopup />
+            <main>
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<ProtectedRoute><LandingPage /></ProtectedRoute>} />
+                <Route path="/auth" element={<AuthPage />} />
+                
+                {/* Backwards compat redirect */}
+                <Route path="/home" element={<Navigate to="/" replace />} />
+                
+                {/* Routes that only require being logged in */}
+                <Route path="/register" element={<ProtectedRoute><Register /></ProtectedRoute>} />
+                <Route path="/joined" element={<ProtectedRoute><Success /></ProtectedRoute>} />
+                <Route path="/directory" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+                <Route path="/my-region" element={<ProtectedRoute><MyRegion /></ProtectedRoute>} />
+                
+                {/* Routes that require being logged in AND having a profile */}
+                <Route path="/dashboard" element={<ProtectedRoute requireProfile><Dashboard /></ProtectedRoute>} />
+                
+                {/* Secret Admin Route */}
+                <Route 
+                  path="/admin" 
+                  element={
+                    isAdminAuthenticated ? 
+                    <AdminDashboard onLogout={() => setIsAdminAuthenticated(false)} /> : 
+                    <AdminLogin onLogin={() => setIsAdminAuthenticated(true)} />
+                  } 
+                />
+                
+                {/* Catch-all redirect */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </ErrorBoundary>
       </AuthProvider>
     </Router>
   );

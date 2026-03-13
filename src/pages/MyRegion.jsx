@@ -45,7 +45,7 @@ export default function MyRegion() {
         </div>
 
         <div>
-          <button className="myregion-back-btn" onClick={() => navigate('/home')}>
+          <button className="myregion-back-btn" onClick={() => navigate('/')}>
             <ArrowLeft size={16} />
             Back to Home
           </button>

@@ -20,7 +20,7 @@ export default function AuthPage() {
   // Auto-redirect if already logged in
   React.useEffect(() => {
     if (!loading && user) {
-      navigate('/home');
+      navigate('/');
     }
   }, [user, loading, navigate]);
 
@@ -43,7 +43,7 @@ export default function AuthPage() {
           setIsSignUp(false);
         } else {
           // Redirect to home after signup
-          navigate('/home');
+          navigate('/');
         }
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({
@@ -53,7 +53,7 @@ export default function AuthPage() {
         if (signInError) throw signInError;
         
         // Redirect to home after signin
-        navigate('/home');
+        navigate('/');
       }
     } catch (err) {
       setError(err.message);
@@ -67,7 +67,7 @@ export default function AuthPage() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/home`
+          redirectTo: `${window.location.origin}/`
         }
       });
       if (error) throw error;
