@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Plus } from 'lucide-react';
+import { Plus, Sparkles } from 'lucide-react';
 import { useStore } from '../services/store';
 import { useAuth } from '../services/AuthContext';
 import { toggleUpvote, getUserUpvotes } from '../services/db';
