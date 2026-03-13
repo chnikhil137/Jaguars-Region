@@ -8,8 +8,7 @@ const desktopImages = [
   '/images/hero/desktop/desktop_2.jpeg',
   '/images/hero/desktop/desktop_3.jpeg',
   '/images/hero/desktop/desktop_4.jpeg',
-  '/images/hero/desktop/desktop_5.jpeg',
-  '/images/hero/desktop/desktop_6.jpeg'
+  '/images/hero/desktop/desktop_5.jpeg'
 ];
 
 const mobileImages = [
