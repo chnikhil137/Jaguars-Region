@@ -21,6 +21,7 @@ export async function addUser(userData) {
     name: userData.name,
     role: userData.role || [],
     location: userData.location || 'Not Specified',
+    gender: userData.gender || '',
     bio: userData.bio || '',
     contact_email: userData.contact_email || '',
     contact_phone: userData.contact_phone || '',

@@ -1,0 +1,149 @@
+.myregion-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-2xl) var(--spacing-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.myregion-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 20%, rgba(229, 9, 20, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.myregion-content {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  animation: myregionFadeIn 0.8s ease both;
+}
+
+@keyframes myregionFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.myregion-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(229, 9, 20, 0.1);
+  border: 1px solid rgba(229, 9, 20, 0.2);
+  margin: 0 auto var(--spacing-xl) auto;
+  color: var(--color-accent-main);
+  animation: iconPulse 3s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.2); }
+  50% { box-shadow: 0 0 30px 10px rgba(229, 9, 20, 0.1); }
+}
+
+.myregion-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  margin-bottom: var(--spacing-md);
+  background: linear-gradient(135deg, #fff, var(--color-accent-main));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.myregion-subtitle {
+  color: var(--color-text-secondary);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: var(--spacing-xl);
+}
+
+.myregion-features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.myregion-feature {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: rgba(17, 17, 17, 0.7);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.myregion-feature:hover {
+  border-color: rgba(229, 9, 20, 0.3);
+  background: rgba(229, 9, 20, 0.05);
+}
+
+.myregion-feature-icon {
+  flex-shrink: 0;
+  color: var(--color-accent-main);
+}
+
+.myregion-feature-text {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+.myregion-feature-text strong {
+  color: var(--color-text-primary);
+}
+
+.myregion-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-pill);
+  background: rgba(229, 9, 20, 0.1);
+  border: 1px solid rgba(229, 9, 20, 0.25);
+  color: var(--color-accent-main);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.myregion-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font-primary);
+  transition: color 0.2s ease;
+}
+
+.myregion-back-btn:hover {
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 640px) {
+  .myregion-page {
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  .myregion-feature {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+}

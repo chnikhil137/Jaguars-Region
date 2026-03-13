@@ -17,8 +17,8 @@ export default function RecruitmentPopup() {
   });
 
   useEffect(() => {
-    // Only trigger on /home
-    if (location.pathname !== '/home') return;
+    // Only trigger on /directory
+    if (location.pathname !== '/directory') return;
 
     // Reset if previously closed, but show again on fresh visit
     const hasClosedPopup = sessionStorage.getItem('jaguars_popup_dismissed');

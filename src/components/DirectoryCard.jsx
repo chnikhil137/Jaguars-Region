@@ -33,7 +33,13 @@ export default function DirectoryCard({ user, isUpvoted, onUpvote }) {
       >
         <div className="card-header">
           <div style={{display: 'flex', flexDirection: 'column', flex: 1}}>
-            <h3>{user.name}</h3>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px'}}>
+              <h3>{user.name}</h3>
+              <div className="card-star-badge">
+                <Star size={14} fill="var(--color-accent-main)" color="var(--color-accent-main)" />
+                <span>{Math.max(0, user.stars || 0)}</span>
+              </div>
+            </div>
             {user.location && user.location !== 'Not Specified' && (
               <div style={{display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--color-text-secondary)', fontSize: '0.85rem', marginBottom: '8px'}}>
                 <MapPin size={12} /> {user.location}
@@ -73,7 +79,7 @@ export default function DirectoryCard({ user, isUpvoted, onUpvote }) {
                   <h2>{user.name} {isOwnCard && <span className="own-badge">(You)</span>}</h2>
                   <div className="star-rating" onClick={() => onUpvote(user.id)}>
                     <Star size={20} fill={isUpvoted ? "var(--color-accent-main)" : "none"} color={isUpvoted ? "var(--color-accent-main)" : "var(--color-text-muted)"} />
-                    <span>{user.stars || 0}</span>
+                    <span>{Math.max(0, user.stars || 0)}</span>
                   </div>
                 </div>
                 {user.location && user.location !== 'Not Specified' && (

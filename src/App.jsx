@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './services/AuthContext';
+import LandingPage from './pages/LandingPage';
 import Home from './pages/Home';
+import MyRegion from './pages/MyRegion';
 import Register from './pages/Register';
 import Success from './pages/Success';
 import SplashScreen from './pages/SplashScreen';
 import AuthPage from './pages/AuthPage';
 import Dashboard from './pages/Dashboard';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import RecruitmentPopup from './components/RecruitmentPopup';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
@@ -40,7 +43,9 @@ function App() {
               {/* Routes that only require being logged in */}
               <Route path="/register" element={<ProtectedRoute><Register /></ProtectedRoute>} />
               <Route path="/joined" element={<ProtectedRoute><Success /></ProtectedRoute>} />
-              <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+              <Route path="/home" element={<ProtectedRoute><LandingPage /></ProtectedRoute>} />
+              <Route path="/directory" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+              <Route path="/my-region" element={<ProtectedRoute><MyRegion /></ProtectedRoute>} />
               
               {/* Routes that require being logged in AND having a profile */}
               <Route path="/dashboard" element={<ProtectedRoute requireProfile><Dashboard /></ProtectedRoute>} />
@@ -59,6 +64,7 @@ function App() {
               <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>
           </main>
+          <Footer />
         </div>
       </AuthProvider>
     </Router>

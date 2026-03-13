@@ -18,6 +18,7 @@ export default function OnboardingFlow() {
     name: '',
     role: [],
     location: '',
+    gender: '',
     bio: '',
     email: '',
     phone: '',
@@ -79,6 +80,7 @@ export default function OnboardingFlow() {
       name: formData.name,
       role: finalRoles,
       location: formData.location,
+      gender: formData.gender,
       bio: formData.bio,
       contact_email: formData.email,
       contact_phone: formData.phone,
@@ -100,7 +102,8 @@ export default function OnboardingFlow() {
 
   const isStep1Valid = formData.name.trim().length > 2 && formData.role.length > 0 && 
                        (!formData.role.includes('Other') || customRole.trim() !== '') &&
-                       formData.location.trim().length > 2;
+                       formData.location.trim().length > 2 &&
+                       formData.gender !== '';
   const isStep2Valid = formData.bio.length >= 10;
   const isStep3Valid = formData.email.includes('@');
 
@@ -115,7 +118,7 @@ export default function OnboardingFlow() {
               <ArrowLeft size={20} /> Back
             </button>
           ) : (
-            <button className="back-button" onClick={() => navigate('/home')} type="button">
+            <button className="back-button" onClick={() => navigate('/directory')} type="button">
               <ArrowLeft size={20} /> Cancel
             </button>
           )}
@@ -158,6 +161,26 @@ export default function OnboardingFlow() {
                   placeholder="e.g. Los Angeles, CA or London, UK"
                   required
                 />
+              </div>
+
+              <div className="form-group">
+                <label>Gender *</label>
+                <div className="gender-selector">
+                  <button
+                    type="button"
+                    className={`gender-toggle ${formData.gender === 'Male' ? 'selected' : ''}`}
+                    onClick={() => setFormData({...formData, gender: 'Male'})}
+                  >
+                    Male
+                  </button>
+                  <button
+                    type="button"
+                    className={`gender-toggle ${formData.gender === 'Female' ? 'selected' : ''}`}
+                    onClick={() => setFormData({...formData, gender: 'Female'})}
+                  >
+                    Female
+                  </button>
+                </div>
               </div>
 
               <div className="form-group">

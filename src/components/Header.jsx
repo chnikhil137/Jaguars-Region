@@ -1,18 +1,18 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../services/AuthContext';
-import { User } from 'lucide-react';
+import { User, Users, Home, Sparkles } from 'lucide-react';
 import './Header.css';
 
 export default function Header() {
   const location = useLocation();
-  const isHome = location.pathname === '/home';
   const isSplash = location.pathname === '/';
   const isAdminRoute = location.pathname.startsWith('/admin');
   const isAuthPage = location.pathname === '/auth';
+  const isLanding = location.pathname === '/home';
 
-  // Hide header on splash, admin, and auth pages
-  if (isAdminRoute || isSplash || isAuthPage) return null;
+  // Hide header on splash, admin, auth, and landing pages
+  if (isAdminRoute || isSplash || isAuthPage || isLanding) return null;
 
   let auth = null;
   try {
@@ -22,7 +22,6 @@ export default function Header() {
   }
 
   const isLoggedIn = auth?.isAuthenticated;
-  const hasProfile = auth?.hasProfile;
 
   return (
     <header className="header glass-panel">
@@ -33,6 +32,12 @@ export default function Header() {
               JAGUARS REGION
             </Link>
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+              <Link to="/directory" className="dash-link">
+                <Users size={16} /> Directory
+              </Link>
+              <Link to="/my-region" className="dash-link">
+                <Sparkles size={16} /> My Region
+              </Link>
               <Link to="/dashboard" className="dash-link">
                 <User size={16} /> My Profile
               </Link>

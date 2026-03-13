@@ -1,0 +1,118 @@
+.app-footer {
+  position: relative;
+  padding: var(--spacing-2xl) var(--spacing-xl) var(--spacing-lg);
+  background: linear-gradient(180deg, transparent 0%, rgba(17, 17, 17, 0.5) 30%, rgba(17, 17, 17, 0.8) 100%);
+  border-top: 1px solid var(--color-border);
+  margin-top: auto;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--spacing-xl);
+}
+
+/* Brand column */
+.footer-brand {
+  flex: 1;
+  min-width: 220px;
+  max-width: 350px;
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--color-accent-main);
+  margin-bottom: var(--spacing-sm);
+}
+
+.footer-desc {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+/* Links column */
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  min-width: 140px;
+}
+
+.footer-links-title {
+  font-family: var(--font-primary);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  font-weight: 600;
+}
+
+.footer-link {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: var(--font-primary);
+  padding: 0;
+  text-align: left;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--color-accent-main);
+}
+
+/* Bottom bar */
+.footer-bottom {
+  max-width: 1200px;
+  margin: var(--spacing-xl) auto 0 auto;
+  padding-top: var(--spacing-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.footer-copyright {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.footer-tagline {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .app-footer {
+    padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md);
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .footer-brand {
+    max-width: 100%;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--spacing-xs);
+  }
+}
