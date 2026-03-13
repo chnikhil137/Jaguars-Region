@@ -61,8 +61,8 @@ export default function Home() {
       
       <div className="container" style={{ paddingBottom: '4rem' }}>
         <div style={{ marginBottom: '2rem', textAlign: 'center', paddingTop: '1rem' }}>
-          <h2 style={{ fontSize: '1.8rem', background: 'linear-gradient(to right, #fff, var(--color-accent-main))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', whiteSpace: 'nowrap' }}>
-            Connect with Jaguars
+          <h2 style={{ fontSize: '1.8rem', background: 'linear-gradient(to right, #fff, var(--color-accent-main))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            Connect with Jaguars | My Jaguars Region
           </h2>
           <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', marginTop: '0.6rem', lineHeight: '1.5', maxWidth: '600px', margin: '0.6rem auto 0 auto' }}>
             Dive into the most aggressive film community. Discover powerful members, connect over shared visions, and collaborate to create cinematic masterpieces.
@@ -77,9 +77,14 @@ export default function Home() {
               </h3>
               <p style={{margin: 0, fontSize: '0.9rem', color: 'var(--color-text-secondary)'}}>You are logged in, but you haven't joined the directory yet.</p>
             </div>
-            <button className="btn btn-primary" onClick={() => navigate('/register')} style={{ padding: '0.6rem 1.2rem' }}>
-               Become a Jaguar
-            </button>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <button className="btn btn-primary" onClick={() => navigate('/register')} style={{ padding: '0.6rem 1.2rem' }}>
+                 Become a Jaguar
+              </button>
+              <button className="btn btn-outline" onClick={() => navigate('/my-region')} style={{ padding: '0.6rem 1.2rem' }}>
+                 <Sparkles size={16} /> My Jaguars Region
+              </button>
+            </div>
           </div>
         )}
 

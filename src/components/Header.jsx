@@ -36,10 +36,10 @@ export default function Header() {
                 <Users size={16} /> Directory
               </Link>
               <Link to="/my-region" className="dash-link">
-                <Sparkles size={16} /> My Region
+                <Sparkles size={16} /> Region
               </Link>
               <Link to="/dashboard" className="dash-link">
-                <User size={16} /> My Profile
+                <User size={16} /> Profile
               </Link>
             </div>
           </>
