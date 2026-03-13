@@ -59,7 +59,6 @@ export default function LandingPage() {
 
       <div className="landing-content">
         <h1 className="landing-title">Jaguars Region</h1>
-        <div className="landing-accent-line" />
 
         <p className="landing-tagline">
           The most <span className="highlight">aggressive</span> filmmaking community is here.

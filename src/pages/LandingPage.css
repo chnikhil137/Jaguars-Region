@@ -31,22 +31,16 @@
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0;
-  transition: opacity 2s ease-in-out;
   transform: scale(1);
+  /* During the 2s opacity fade out, hold the scale completely still (delay transform reset by 2s) */
+  transition: opacity 2s ease-in-out, transform 0s linear 2s;
 }
 
 .landing-slide.active {
   opacity: 1;
-  animation: subtleZoom 6s linear forwards;
-}
-
-@keyframes subtleZoom {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.05);
-  }
+  transform: scale(1.05); /* Slowly scale to 1.05 while active */
+  /* Fade in over 2s, and scale up smoothly over 10s */
+  transition: opacity 2s ease-in-out, transform 10s linear;
 }
 
 /* Desktop vs Mobile display logic */
@@ -119,21 +113,6 @@
 @keyframes titleShimmer {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
-}
-
-/* Accent line */
-.landing-accent-line {
-  width: 80px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--color-accent-main), transparent);
-  margin: 0 auto var(--spacing-xl) auto;
-  border-radius: var(--radius-pill);
-  animation: lineExpand 1.5s 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
-}
-
-@keyframes lineExpand {
-  from { width: 0; opacity: 0; }
-  to { width: 80px; opacity: 1; }
 }
 
 /* Tagline */
