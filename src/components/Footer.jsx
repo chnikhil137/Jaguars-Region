@@ -1,11 +1,14 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Mail } from 'lucide-react';
+import { useAuth } from '../services/AuthContext';
 import './Footer.css';
 
 export default function Footer() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { memberProfile } = useAuth();
+
 
   // Hide footer on auth and admin pages
   const hiddenPaths = ['/auth', '/admin'];
@@ -37,7 +40,12 @@ export default function Footer() {
         <div className="footer-links">
           <span className="footer-links-title">Account</span>
           <button className="footer-link" onClick={() => navigate('/dashboard')}>My Profile</button>
-          <button className="footer-link" onClick={() => navigate('/register')}>Become a Jaguar</button>
+          
+          {memberProfile ? (
+             <button className="footer-link" onClick={() => navigate('/dashboard')}>My Profile Settings</button>
+          ) : (
+             <button className="footer-link" onClick={() => navigate('/register')}>Become a Jaguar</button>
+          )}
         </div>
 
         <div className="footer-links">

@@ -55,7 +55,7 @@ export async function addUser(userData) {
 
   if (error) {
     console.error('Error adding member:', import.meta.env.DEV ? error : 'Internal server error');
-    return null;
+    throw new Error(error.message || 'Error adding member to database');
   }
 
   window.dispatchEvent(new Event('db_updated'));
