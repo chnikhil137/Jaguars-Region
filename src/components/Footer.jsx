@@ -7,7 +7,7 @@ import './Footer.css';
 export default function Footer() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { memberProfile } = useAuth();
+  const { memberProfile, isAuthenticated, loading } = useAuth();
 
 
   // Hide footer on auth and admin pages
