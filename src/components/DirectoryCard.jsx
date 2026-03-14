@@ -78,7 +78,7 @@ export default function DirectoryCard({ user, isUpvoted, onUpvote }) {
               <div className="modal-title">
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <h2>{user.name} {isOwnCard && <span className="own-badge">(You)</span>}</h2>
-                  <div className="star-rating" onClick={() => onUpvote(user.id)}>
+                  <div className="star-rating profile-star-rating" onClick={() => onUpvote(user.id)}>
                     <Star size={20} fill={isUpvoted ? "var(--color-accent-main)" : "none"} color={isUpvoted ? "var(--color-accent-main)" : "var(--color-text-muted)"} />
                     <span>{Math.max(0, user.stars || 0)}</span>
                   </div>
@@ -96,8 +96,8 @@ export default function DirectoryCard({ user, isUpvoted, onUpvote }) {
                     </div>
                   )}
                   {user.language && (
-                    <div className="demographic-item" style={{maxWidth: '150px'}} title={user.language}>
-                      <MessageSquare size={14} /> <span className="truncate">{user.language}</span>
+                    <div className="demographic-item language-item" title={user.language}>
+                      <MessageSquare size={14} /> <span>{user.language}</span>
                     </div>
                   )}
                 </div>

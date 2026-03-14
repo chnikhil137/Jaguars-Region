@@ -12,9 +12,15 @@
 .header-container {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: var(--spacing-lg);
+  justify-content: space-between;
+  gap: 0.5rem;
   padding: var(--spacing-xs) var(--spacing-md);
+  flex-wrap: nowrap; /* Force one line */
+  overflow-x: auto; /* Allow scroll if absolutely necessary */
+  scrollbar-width: none; /* Hide scrollbar for cleaner look */
+}
+.header-container::-webkit-scrollbar {
+  display: none;
 }
 
 /* CTA as a subtle gradient text link, NOT a big red button */
@@ -56,17 +62,14 @@
 }
 
 @media (max-width: 640px) {
+  .hide-mobile {
+    display: none;
+  }
   .header-container {
     gap: var(--spacing-sm);
-    flex-wrap: wrap;
+    justify-content: center;
   }
-
-  .cta-link {
-    font-size: 0.8rem;
-    text-align: center;
-  }
-
-  .dash-link {
-    font-size: 0.78rem;
+  .header-logo {
+    margin-right: auto;
   }
 }

@@ -21,8 +21,9 @@ export default function Header() {
       <div className="container header-container">
         {isAuthenticated && (
           <>
-            <Link to="/" className="header-logo" style={{ textDecoration: 'none', color: 'var(--color-accent-main)', fontWeight: 'bold', fontSize: '1.2rem', letterSpacing: '1px' }}>
-              JAGUARS REGION
+            <Link to="/" className="header-logo" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none', color: 'var(--color-accent-main)', fontWeight: 'bold', fontSize: '1.1rem', letterSpacing: '1px' }}>
+              <img src="/logo.png" alt="Logo" style={{ height: '24px', width: '24px', borderRadius: '4px' }} />
+              <span className="hide-mobile">JAGUARS REGION</span>
             </Link>
             <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
               <Link to="/directory" className="dash-link">
@@ -32,7 +33,7 @@ export default function Header() {
                 <Sparkles size={16} /> Region
               </Link>
               <Link to="/dashboard" className="dash-link">
-                <User size={16} /> My Profile
+                <User size={16} /> Profile
               </Link>
             </div>
           </>

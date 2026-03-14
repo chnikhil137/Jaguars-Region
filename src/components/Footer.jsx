@@ -10,8 +10,8 @@ export default function Footer() {
   const { memberProfile, isAuthenticated, loading } = useAuth();
 
 
-  // Hide footer on auth and admin pages
-  const hiddenPaths = ['/auth', '/admin'];
+  // Hide footer on splash, auth and admin pages
+  const hiddenPaths = ['/', '/auth', '/admin'];
   if (hiddenPaths.some(p => location.pathname === p || location.pathname.startsWith('/admin'))) {
     return null;
   }

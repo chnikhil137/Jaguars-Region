@@ -38,11 +38,11 @@ export default function SplashScreen() {
     // Sequence Timeline
     const t1 = setTimeout(() => {
       setPhase('logo');
-    }, 1000); // 1s: start showing logo
+    }, 500); // Reduce from 1s to 0.5s
 
     const t2 = setTimeout(() => {
       setPhase('routing');
-    }, 4500); // 4.5s: fade out
+    }, 2000); // Reduce from 4.5s to 2s
 
     const t3 = setTimeout(() => {
       // Use the already-loaded auth state from context to avoid lock contention
@@ -51,7 +51,7 @@ export default function SplashScreen() {
       } else {
         navigate('/auth');
       }
-    }, 5500); // 5.5s: navigate
+    }, 2500); // Reduce from 5.5s to 2.5s
 
     return () => {
       clearTimeout(t1);
