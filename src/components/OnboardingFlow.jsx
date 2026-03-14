@@ -14,12 +14,14 @@ export default function OnboardingFlow() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [customRole, setCustomRole] = useState('');
 
-  // Redirect if profile already exists
+  // Redirect if profile already exists - DISABLED to allow completion of onboarding flow
+  /*
   React.useEffect(() => {
     if (!authLoading && memberProfile) {
       navigate('/dashboard', { replace: true });
     }
   }, [memberProfile, authLoading, navigate]);
+  */
   
   const [formData, setFormData] = useState({
     name: '',
