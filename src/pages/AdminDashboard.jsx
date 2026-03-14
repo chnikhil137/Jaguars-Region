@@ -153,7 +153,7 @@ export default function AdminDashboard({ onLogout }) {
                       </td>
                       <td>
                         <div className="table-tags">
-                          {member.role.map((r, i) => (
+                          {Array.isArray(member.role) && member.role.map((r, i) => (
                             <span key={i} className="small-tag">{r}</span>
                           ))}
                         </div>

@@ -39,12 +39,21 @@ export default function Footer() {
         {/* Account + Contact */}
         <div className="footer-links">
           <span className="footer-links-title">Account</span>
-          <button className="footer-link" onClick={() => navigate('/dashboard')}>My Profile</button>
           
-          {memberProfile ? (
-             <button className="footer-link" onClick={() => navigate('/dashboard')}>My Profile Settings</button>
+          {isAuthenticated ? (
+            <>
+              <button className="footer-link" onClick={() => navigate('/dashboard')}>My Profile Settings</button>
+              {!memberProfile && !loading && (
+                <button className="footer-link" onClick={() => navigate('/register')} style={{ color: 'var(--color-accent-main)' }}>
+                  Complete Profile
+                </button>
+              )}
+            </>
           ) : (
-             <button className="footer-link" onClick={() => navigate('/register')}>Become a Jaguar</button>
+            <>
+              <button className="footer-link" onClick={() => navigate('/auth')}>Sign In</button>
+              <button className="footer-link" onClick={() => navigate('/auth')}>Become a Jaguar</button>
+            </>
           )}
         </div>
 

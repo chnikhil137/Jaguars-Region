@@ -9,10 +9,17 @@ import './OnboardingFlow.css';
 export default function OnboardingFlow() {
   const navigate = useNavigate();
   const { registerUser } = useStore();
-  const { user, refreshProfile } = useAuth();
+  const { user, refreshProfile, memberProfile, loading: authLoading } = useAuth();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [customRole, setCustomRole] = useState('');
+
+  // Redirect if profile already exists
+  React.useEffect(() => {
+    if (!authLoading && memberProfile) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [memberProfile, authLoading, navigate]);
   
   const [formData, setFormData] = useState({
     name: '',

@@ -15,12 +15,13 @@ import RecruitmentPopup from './components/RecruitmentPopup';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
 
-const ProtectedRoute = ({ children, requireProfile = false }) => {
+const ProtectedRoute = ({ children, requireProfile = false, redirectIfProfile = false }) => {
   const { user, memberProfile, loading } = useAuth();
   
   if (loading) return <div className="loading-screen">Loading...</div>;
   if (!user) return <Navigate to="/auth" replace />;
   if (requireProfile && !memberProfile) return <Navigate to="/register" replace />;
+  if (redirectIfProfile && memberProfile) return <Navigate to="/dashboard" replace />;
   
   return children;
 };
@@ -45,7 +46,7 @@ function App() {
                 <Route path="/home" element={<Navigate to="/" replace />} />
                 
                 {/* Routes that only require being logged in */}
-                <Route path="/register" element={<ProtectedRoute><Register /></ProtectedRoute>} />
+                <Route path="/register" element={<ProtectedRoute redirectIfProfile><Register /></ProtectedRoute>} />
                 <Route path="/joined" element={<ProtectedRoute><Success /></ProtectedRoute>} />
                 <Route path="/directory" element={<ProtectedRoute><Home /></ProtectedRoute>} />
                 <Route path="/my-region" element={<ProtectedRoute><MyRegion /></ProtectedRoute>} />

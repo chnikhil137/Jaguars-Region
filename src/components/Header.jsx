@@ -32,7 +32,7 @@ export default function Header() {
                 <Sparkles size={16} /> Region
               </Link>
               <Link to="/dashboard" className="dash-link">
-                <User size={16} /> Profile
+                <User size={16} /> My Profile
               </Link>
             </div>
           </>

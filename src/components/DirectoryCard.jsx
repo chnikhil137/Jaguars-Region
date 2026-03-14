@@ -47,10 +47,10 @@ export default function DirectoryCard({ user, isUpvoted, onUpvote }) {
               </div>
             )}
             <div className="role-tags">
-              {user.role.slice(0, 2).map((r, i) => (
+              {Array.isArray(user.role) && user.role.slice(0, 2).map((r, i) => (
                 <span key={i} className="role-tag">{r}</span>
               ))}
-              {user.role.length > 2 && (
+              {Array.isArray(user.role) && user.role.length > 2 && (
                 <span className="role-tag">+{user.role.length - 2}</span>
               )}
             </div>
@@ -103,7 +103,7 @@ export default function DirectoryCard({ user, isUpvoted, onUpvote }) {
                 </div>
 
                 <div className="role-tags">
-                  {user.role.map((r, i) => (
+                  {Array.isArray(user.role) && user.role.map((r, i) => (
                     <span key={i} className="role-tag">{r}</span>
                   ))}
                 </div>
