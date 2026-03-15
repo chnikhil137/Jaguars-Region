@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../services/AuthContext';
 import { supabase } from '../services/supabase';
 import { ROLES_LIST } from '../components/FilterBar';
-import { User, Save, LogOut, Plus, Trash2, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { User, Save, LogOut, Plus, Trash2, ArrowLeft, CheckCircle2, AlertTriangle } from 'lucide-react';
+import { deleteUser } from '../services/db';
 import './Dashboard.css';
 
 export default function Dashboard() {
@@ -114,6 +115,22 @@ export default function Dashboard() {
     setSaving(false);
   };
 
+  const handleDeleteProfile = async () => {
+    if (!memberProfile) return;
+    const confirmed = window.confirm(
+      'Are you sure you want to DELETE your profile? This will permanently remove you from the Jaguars directory. This action cannot be undone.'
+    );
+    if (!confirmed) return;
+    
+    const success = await deleteUser(memberProfile.id);
+    if (success) {
+      await refreshProfile();
+      navigate('/directory');
+    } else {
+      alert('Failed to delete profile. Please try again.');
+    }
+  };
+
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     navigate('/');
@@ -157,8 +174,8 @@ export default function Dashboard() {
           <button className="dash-back-btn" onClick={() => navigate('/directory')}>
             <ArrowLeft size={18} /> Connect with Jaguars
           </button>
-          <button className="dash-signout-btn" onClick={handleSignOut}>
-            <LogOut size={16} /> Sign Out
+          <button className="dash-delete-btn" onClick={handleDeleteProfile}>
+            <Trash2 size={16} /> Delete Profile
           </button>
         </div>
 
@@ -291,6 +308,12 @@ export default function Dashboard() {
           >
             {saving ? 'Saving...' : saved ? '✓ Saved!' : <><Save size={18} /> Save Changes</>}
           </button>
+
+          <div className="dash-bottom-actions">
+            <button className="dash-signout-link" onClick={handleSignOut}>
+              <LogOut size={14} /> Sign Out
+            </button>
+          </div>
         </div>
       </div>
     </div>
