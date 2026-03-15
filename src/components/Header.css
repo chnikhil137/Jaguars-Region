@@ -65,6 +65,12 @@
   .header-container {
     gap: var(--spacing-sm);
     flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .header-container .header-logo {
+    width: 100%;
+    text-align: center;
   }
 
   .cta-link {

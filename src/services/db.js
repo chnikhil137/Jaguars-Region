@@ -33,6 +33,13 @@ export async function addUser(userData) {
     console.warn('Rate limit exceeded for addUser');
     return null;
   }
+
+  // Always get fresh user to avoid stale session errors
+  const { data: { user: freshUser }, error: userError } = await supabase.auth.getUser();
+  if (userError || !freshUser) {
+    throw new Error('Authentication expired. Please refresh the page and try again.');
+  }
+
   const newUser = {
     name: userData.name,
     role: userData.role || [],
@@ -44,22 +51,37 @@ export async function addUser(userData) {
     contact_phone: userData.contact_phone || '',
     custom_links: userData.custom_links || [],
     stars: 0,
-    user_id: userData.user_id || null
+    user_id: freshUser.id // Use fresh user ID, not potentially stale one
   };
 
-  const { data, error } = await supabase
-    .from('members')
-    .upsert([newUser], { onConflict: 'user_id' })
-    .select()
-    .single();
+  // Attempt upsert with retry on auth errors
+  let lastError = null;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const { data, error } = await supabase
+      .from('members')
+      .upsert([newUser], { onConflict: 'user_id' })
+      .select()
+      .single();
 
-  if (error) {
-    console.error('Error adding member:', import.meta.env.DEV ? error : 'Internal server error');
-    throw new Error(error.message || 'Error adding member to database');
+    if (!error) {
+      window.dispatchEvent(new Event('db_updated'));
+      return data;
+    }
+
+    lastError = error;
+    
+    // If it's an auth/session error, try refreshing the session once
+    if (attempt === 0 && (error.message?.includes('JWT') || error.code === 'PGRST301' || error.message?.includes('stale'))) {
+      console.warn('Session error during addUser, refreshing session...');
+      await supabase.auth.refreshSession();
+      continue;
+    }
+    
+    break; // Non-auth error, don't retry
   }
 
-  window.dispatchEvent(new Event('db_updated'));
-  return data;
+  console.error('Error adding member:', import.meta.env.DEV ? lastError : 'Internal server error');
+  throw new Error(lastError?.message || 'Error adding member to database');
 }
 
 // Update a member's profile

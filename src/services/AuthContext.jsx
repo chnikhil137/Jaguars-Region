@@ -31,7 +31,6 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     let mounted = true;
-    let initialized = false;
 
     // Safety timeout: Ensure loading screen clears eventually (max 3s)
     const timeout = setTimeout(() => {
@@ -41,45 +40,36 @@ export function AuthProvider({ children }) {
       }
     }, 3000);
 
-    const initialize = async (session) => {
-      if (!mounted || initialized) return;
-      initialized = true;
-      const currentUser = session?.user || null;
-      setUser(currentUser);
-      if (currentUser) {
-        await loadProfile(currentUser);
-      } else {
-        setMemberProfile(null);
-      }
-      if (mounted) {
-        setLoading(false);
-        clearTimeout(timeout);
-      }
-    };
-
-    // 1. Listen for auth state changes (includes INITIAL_SESSION event)
+    // Use ONLY onAuthStateChange for session management.
+    // Do NOT call getSession() separately — this causes lock contention
+    // and the "broken by another request with stale option" error.
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (!mounted) return;
-        if (event === 'INITIAL_SESSION') {
-          initialize(session);
+        
+        const currentUser = session?.user || null;
+        setUser(currentUser);
+
+        if (currentUser) {
+          // Defer profile load to avoid blocking auth state change
+          // Use setTimeout to break out of the onAuthStateChange callback
+          // which holds the navigator lock
+          setTimeout(async () => {
+            if (mounted) {
+              await loadProfile(currentUser);
+              if (mounted) {
+                setLoading(false);
+                clearTimeout(timeout);
+              }
+            }
+          }, 0);
         } else {
-          // For subsequent auth changes (sign in, sign out, token refresh)
-          const currentUser = session?.user || null;
-          setUser(currentUser);
-          if (currentUser) {
-            await loadProfile(currentUser);
-          } else {
-            setMemberProfile(null);
-          }
+          setMemberProfile(null);
+          setLoading(false);
+          clearTimeout(timeout);
         }
       }
     );
-
-    // 2. Fallback: if onAuthStateChange doesn't fire quickly, use getSession
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (mounted && !initialized) initialize(session);
-    });
 
     return () => {
       mounted = false;
@@ -88,7 +78,14 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
-  const refreshProfile = () => loadProfile(user);
+  const refreshProfile = async () => {
+    // Get fresh user to avoid stale session issues
+    const { data: { user: freshUser } } = await supabase.auth.getUser();
+    if (freshUser) {
+      setUser(freshUser);
+      await loadProfile(freshUser);
+    }
+  };
 
   const value = {
     user,
