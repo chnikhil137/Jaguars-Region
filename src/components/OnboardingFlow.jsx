@@ -78,7 +78,6 @@ export default function OnboardingFlow() {
     // Process custom role
     const finalRoles = [...formData.role];
     if (finalRoles.includes('Other') && customRole.trim()) {
-      // Replace 'Other' with the custom role they typed
       const otherIndex = finalRoles.indexOf('Other');
       finalRoles[otherIndex] = customRole.trim();
     }
@@ -96,17 +95,19 @@ export default function OnboardingFlow() {
       contact_email: formData.email,
       contact_phone: formData.phone,
       custom_links: validLinks,
-      user_id: user?.id || null
     };
 
     try {
       await registerUser(finalData);
-      await refreshProfile();
+      
+      // Profile saved successfully — navigate to WhatsApp page IMMEDIATELY
+      // Refresh profile in background (don't await — it can cause lock contention)
+      refreshProfile().catch(() => {});
+      
       navigate('/joined', { state: { success: true } });
     } catch (err) {
       console.error("Submission error:", import.meta.env.DEV ? err : "Onboarding failed");
-      alert("Something went wrong joining: " + err.message);
-    } finally {
+      alert("Something went wrong. Please try again. If this keeps happening, refresh the page first.");
       setIsSubmitting(false);
     }
   };
