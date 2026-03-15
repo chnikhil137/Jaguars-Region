@@ -188,7 +188,29 @@ export async function getLeads() {
   return data || [];
 }
 
-// Delete a member (admin only)
+// Delete own profile (user deletes their own member entry)
+export async function deleteOwnProfile() {
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  if (authError || !user) {
+    console.error('Auth error during delete:', authError);
+    return false;
+  }
+
+  const { error } = await supabase
+    .from('members')
+    .delete()
+    .eq('user_id', user.id);
+
+  if (error) {
+    console.error('Error deleting profile:', import.meta.env.DEV ? error : 'Internal server error');
+    return false;
+  }
+  
+  window.dispatchEvent(new Event('db_updated'));
+  return true;
+}
+
+// Delete a member by ID (admin only)
 export async function deleteUser(memberId) {
   const { error } = await supabase
     .from('members')

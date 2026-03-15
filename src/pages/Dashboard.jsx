@@ -4,7 +4,7 @@ import { useAuth } from '../services/AuthContext';
 import { supabase } from '../services/supabase';
 import { ROLES_LIST } from '../components/FilterBar';
 import { User, Save, LogOut, Plus, Trash2, ArrowLeft, CheckCircle2, AlertTriangle } from 'lucide-react';
-import { deleteUser } from '../services/db';
+import { deleteOwnProfile } from '../services/db';
 import './Dashboard.css';
 
 export default function Dashboard() {
@@ -122,7 +122,7 @@ export default function Dashboard() {
     );
     if (!confirmed) return;
     
-    const success = await deleteUser(memberProfile.id);
+    const success = await deleteOwnProfile();
     if (success) {
       await refreshProfile();
       navigate('/directory');
