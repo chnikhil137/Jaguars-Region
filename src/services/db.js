@@ -196,6 +196,16 @@ export async function deleteOwnProfile() {
     return false;
   }
 
+  // Try RPC function first (bypasses RLS via SECURITY DEFINER)
+  const { error: rpcError } = await supabase.rpc('delete_own_profile');
+  
+  if (!rpcError) {
+    window.dispatchEvent(new Event('db_updated'));
+    return true;
+  }
+
+  // Fallback: direct delete by user_id
+  console.warn('RPC delete failed, trying direct delete:', rpcError.message);
   const { error } = await supabase
     .from('members')
     .delete()
