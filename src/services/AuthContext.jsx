@@ -31,40 +31,55 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     let mounted = true;
+    let initialized = false;
 
-    // Safety timeout: Ensure loading screen clears eventually (max 8s)
+    // Safety timeout: Ensure loading screen clears eventually (max 3s)
     const timeout = setTimeout(() => {
       if (mounted && loading) {
         console.warn("Auth initialization timed out, clearing loading state.");
         setLoading(false);
       }
-    }, 8000);
+    }, 3000);
 
     const initialize = async (session) => {
-      if (!mounted) return;
+      if (!mounted || initialized) return;
+      initialized = true;
       const currentUser = session?.user || null;
       setUser(currentUser);
-      await loadProfile(currentUser);
+      if (currentUser) {
+        await loadProfile(currentUser);
+      } else {
+        setMemberProfile(null);
+      }
       if (mounted) {
         setLoading(false);
         clearTimeout(timeout);
       }
     };
 
-    // 1. Get initial session immediately
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (mounted) initialize(session);
-    });
-
-    // 2. Listen for subsequent changes
+    // 1. Listen for auth state changes (includes INITIAL_SESSION event)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (!mounted) return;
-        // On INITIAL_SESSION, initialize will be called again, 
-        // but that's fine as it's idempotent for state.
-        initialize(session);
+        if (event === 'INITIAL_SESSION') {
+          initialize(session);
+        } else {
+          // For subsequent auth changes (sign in, sign out, token refresh)
+          const currentUser = session?.user || null;
+          setUser(currentUser);
+          if (currentUser) {
+            await loadProfile(currentUser);
+          } else {
+            setMemberProfile(null);
+          }
+        }
       }
     );
+
+    // 2. Fallback: if onAuthStateChange doesn't fire quickly, use getSession
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (mounted && !initialized) initialize(session);
+    });
 
     return () => {
       mounted = false;

@@ -122,7 +122,14 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="dashboard-page">
-        <div className="dashboard-loading">Loading your profile...</div>
+        <div className="dashboard-card glass-panel" style={{ padding: '2rem' }}>
+          <div className="dashboard-skeleton">
+            <div className="skeleton-line" style={{ width: '40%', height: '1.5rem', marginBottom: '1rem' }} />
+            <div className="skeleton-line" style={{ width: '70%', height: '1rem', marginBottom: '0.75rem' }} />
+            <div className="skeleton-line" style={{ width: '55%', height: '1rem', marginBottom: '0.75rem' }} />
+            <div className="skeleton-line" style={{ width: '80%', height: '1rem' }} />
+          </div>
+        </div>
       </div>
     );
   }
@@ -147,8 +154,8 @@ export default function Dashboard() {
     <div className="dashboard-page">
       <div className="dashboard-card glass-panel">
         <div className="dashboard-top-bar">
-          <button className="dash-back-btn" onClick={() => navigate('/')}>
-            <ArrowLeft size={18} /> Directory
+          <button className="dash-back-btn" onClick={() => navigate('/directory')}>
+            <ArrowLeft size={18} /> Connect with Jaguars
           </button>
           <button className="dash-signout-btn" onClick={handleSignOut}>
             <LogOut size={16} /> Sign Out

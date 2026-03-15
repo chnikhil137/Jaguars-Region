@@ -18,7 +18,15 @@ import AdminLogin from './pages/AdminLogin';
 const ProtectedRoute = ({ children, requireProfile = false, redirectIfProfile = false }) => {
   const { user, memberProfile, loading } = useAuth();
   
-  if (loading) return <div className="loading-screen">Loading...</div>;
+  if (loading) return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#050505' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+        <div style={{ width: '36px', height: '36px', border: '3px solid rgba(229,9,20,0.2)', borderTopColor: '#E50914', borderRadius: '50%', animation: 'protectedSpin 0.6s linear infinite' }} />
+        <span style={{ color: '#666', fontFamily: "'Outfit', sans-serif", fontSize: '0.85rem', letterSpacing: '2px', textTransform: 'uppercase' }}>Jaguars Region</span>
+      </div>
+      <style>{`@keyframes protectedSpin { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
   if (!user) return <Navigate to="/auth" replace />;
   if (requireProfile && !memberProfile) return <Navigate to="/register" replace />;
   if (redirectIfProfile && memberProfile) return <Navigate to="/dashboard" replace />;

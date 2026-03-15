@@ -60,7 +60,7 @@ export default function Home() {
       />
       
       <div className="container" style={{ paddingBottom: '4rem' }}>
-        <div style={{ marginBottom: '2rem', textAlign: 'center', paddingTop: '1rem' }}>
+        <div id="connect-with-jaguars" style={{ marginBottom: '2rem', textAlign: 'center', paddingTop: '1rem' }}>
           <h2 style={{ fontSize: '1.8rem', background: 'linear-gradient(to right, #fff, var(--color-accent-main))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Connect with Jaguars
           </h2>
@@ -85,7 +85,23 @@ export default function Home() {
           </div>
         )}
 
-        {filteredUsers.length > 0 ? (
+        {storeLoading ? (
+          <div className="masonry-grid">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="glass-panel" style={{ padding: '1.25rem', borderRadius: 'var(--radius-lg)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  <div style={{ height: '1.2rem', width: '60%', background: 'rgba(255,255,255,0.06)', borderRadius: '4px', animation: 'homeSkelShimmer 1.5s ease-in-out infinite' }} />
+                  <div style={{ height: '0.8rem', width: '40%', background: 'rgba(255,255,255,0.04)', borderRadius: '4px', animation: 'homeSkelShimmer 1.5s ease-in-out 0.2s infinite' }} />
+                  <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.25rem' }}>
+                    <div style={{ height: '1.5rem', width: '4rem', background: 'rgba(255,255,255,0.04)', borderRadius: '9999px', animation: 'homeSkelShimmer 1.5s ease-in-out 0.4s infinite' }} />
+                    <div style={{ height: '1.5rem', width: '5rem', background: 'rgba(255,255,255,0.04)', borderRadius: '9999px', animation: 'homeSkelShimmer 1.5s ease-in-out 0.6s infinite' }} />
+                  </div>
+                </div>
+                <style>{`@keyframes homeSkelShimmer { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }`}</style>
+              </div>
+            ))}
+          </div>
+        ) : filteredUsers.length > 0 ? (
           <div className="masonry-grid">
 
             {filteredUsers.map(user => (
